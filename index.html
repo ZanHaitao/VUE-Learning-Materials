@@ -10,34 +10,30 @@
 
 <body>
     <div id="app">
-        {{ msg }}
+        {{ obj }}
+        {{ arr }}
     </div>
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: 'test1'
+                obj: {
+                    name: 'zhangsan',
+                    age: 19
+                },
+                arr: [1, 2, 3, 4]
             }
         })
 
-        vm.msg = 'test2';
-        console.log(vm.msg, vm.$el.innerText);
-        vm.msg = 'test3';
-        console.log(vm.msg, vm.$el.innerText);
-        vm.msg = 'test4';
-        console.log(vm.msg, vm.$el.innerText);
+        //解决数组修改渲染问题
+        vm.arr.push(5);
+        vm.$set(vm.arr, 5, 777);
+        vm.$delete(vm.arr, 0)
 
-        // setTimeout(() => {
-        //     console.log(vm.msg, vm.$el.innerText);
-        // }, 0)
+        //解决对象修改渲染问题
+        vm.$set(vm.obj, "city", "厦门市");
+        vm.$delete(vm.obj, "age")
 
-        // vm.$nextTick(() => {
-        //     console.log(vm.msg, vm.$el.innerText);
-        // })
-
-        vm.$nextTick().then(() => {
-            console.log(vm.msg, vm.$el.innerText);
-        })
     </script>
 </body>
 
