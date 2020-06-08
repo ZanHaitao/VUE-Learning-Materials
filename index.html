@@ -11,17 +11,33 @@
 <body>
     <div id="app">
         {{ msg }}
-        {{ 1+1 }}
     </div>
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: 'Hello world!'
+                msg: 'test1'
             }
         })
 
-        // vm.$mount('#app');
+        vm.msg = 'test2';
+        console.log(vm.msg, vm.$el.innerText);
+        vm.msg = 'test3';
+        console.log(vm.msg, vm.$el.innerText);
+        vm.msg = 'test4';
+        console.log(vm.msg, vm.$el.innerText);
+
+        // setTimeout(() => {
+        //     console.log(vm.msg, vm.$el.innerText);
+        // }, 0)
+
+        // vm.$nextTick(() => {
+        //     console.log(vm.msg, vm.$el.innerText);
+        // })
+
+        vm.$nextTick().then(() => {
+            console.log(vm.msg, vm.$el.innerText);
+        })
     </script>
 </body>
 

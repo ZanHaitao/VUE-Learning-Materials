@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = document.getElementById('app');
+
+        //使用 Object.defineProperty() 实现
+        const obj = {
+            _text: 'test'
+        }
+        Object.defineProperty(obj, "text", {
+            set(val) {
+                this._text = val;
+                app.innerText = val;
+            },
+            get() {
+                return this._text;
+            }
+        })
+        app.innerText = obj.text;
+
+        //使用Proxy实现
+        const obj = {
+            text: "test"
+        }
+        const proxy = new Proxy(obj, {
+            set(target, propertyKey, value) {
+                Reflect.set(target, propertyKey, value);
+                app.innerText = value;
+            },
+            get(target, propertyKey) {
+                return Reflect.get(target, propertyKey);
+            }
+        })
+        app.innerText = obj.text;
+    </script>
+</body>
+
+</html>
