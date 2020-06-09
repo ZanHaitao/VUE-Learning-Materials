@@ -5,36 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="vue.js"></script>
 </head>
 
 <body>
-    <div id="app">
-        {{ obj }}
-        {{ arr }}
-    </div>
-    <script>
-        const vm = new Vue({
-            el: '#app',
-            data: {
-                obj: {
-                    name: 'zhangsan',
-                    age: 19
-                },
-                arr: [1, 2, 3, 4]
-            }
-        })
-
-        //解决数组修改渲染问题
-        vm.arr.push(5);
-        vm.$set(vm.arr, 5, 777);
-        vm.$delete(vm.arr, 0)
-
-        //解决对象修改渲染问题
-        vm.$set(vm.obj, "city", "厦门市");
-        vm.$delete(vm.obj, "age")
-
-    </script>
+    <script src="./observer.js"></script>
 </body>
 
 </html>

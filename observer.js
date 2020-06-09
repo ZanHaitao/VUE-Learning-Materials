@@ -1,6 +1,3 @@
-# 扩展\_剖析 Vue 响应式原理
-
-```js
 const data = {
     name: '张三',
     age: 19,
@@ -94,11 +91,3 @@ console.log(data.likes.book);
 
 $delete(data.likes, 'test');
 console.log(data.likes);
-```
-
-> 利用 Object.defineProperty 实现响应式的劣势
-
-1. 天生就需要进行递归
-2. 监听不到数组不存在的索引的改变
-3. 监听不到数组长度的改变
-4. 监听不到对象的增删
