@@ -5,10 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="vue.js"></script>
 </head>
 
 <body>
-    <script src="./observer.js"></script>
+    <!-- v-pre -->
+    <div id="app" v-pre>{{ msg }}</div>
+
+    <!-- v-cloak -->
+    <div id="app" v-cloak>{{ msg }}</div>
+
+    <!-- v-once -->
+    <div id="app" v-once>{{ msg }}</div>
+
+    <!-- v-text -->
+    <div id="app" v-text="text"></div>
+
+
+    <!-- v-html -->
+    <div id="app" v-html="html"></div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'test测试',
+                text: 'text测试',
+                html: '<p>html测试</p>'
+            }
+        })
+    </script>
 </body>
 
 </html>
