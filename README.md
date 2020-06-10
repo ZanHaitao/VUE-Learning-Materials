@@ -1,147 +1,136 @@
-# v-bind 指令
+# v-on 指令
 
--   动态地绑定一个或多个特性
+-   v-on 指令可以监听 DOM 事件，并在触发时运行一些 JavaScript 代码
 
--   :后的为传递的参数
-
-    ```html
-    <!-- 绑定一个属性 -->
-    <img v-bind:src="imageSrc" />
-
-    <!-- 动态特性名 (2.6.0+) -->
-    <button v-bind:[key]="value"></button>
-
-    <!-- 缩写 -->
-    <img :src="imageSrc" />
-
-    <!-- 动态特性名缩写 (2.6.0+) -->
-    <button :[key]="value"></button>
-
-    <!-- 内联字符串拼接 -->
-    <img :src="'/path/to/images/' + fileName" />
-    ```
-
--   没有参数时，可以绑定到一个包含键值对的对象。注意此时 class 和 style 绑定不支持数组和对象。
+-   事件类型由参数指定
 
     ```html
-    <!-- 绑定一个有属性的对象 -->
-    <div v-bind="{ id: someProp, 'other-attr': otherProp }"></div>
+    <div id="app">
+        <button v-on:click="counter += 1">点击加 1</button>
+        <p>按钮被点击了 {{ counter }} 次</p>
+    </div>
     ```
 
--   由于字符串拼接麻烦且易错，所以在绑定 class 或 style 特性时，Vue 做了增强，表达式的类型除了字符串之外，还可以是数组或对象。
+    ```js
+    const vm = new Vue({
+        el: 'app',
+        data: {
+            counter: 0,
+        },
+    });
+    ```
 
-    -   绑定 class
+-   但是很多事件处理逻辑是非常复杂的，所以直接把 JavaScript 代码写在 v-on 指令中是不可行的。所以 v-on 还可以接收一个需要调用的方法名称。
 
-        -   对象语法
+    ```html
+    <div id="app">
+        <!-- `addCounter` 是在下面定义的方法名 -->
+        <button v-on:click="addCounter">点击加 1</button>
+        <p>按钮被点击了 {{ counter }} 次</p>
+    </div>
+    ```
 
-            ```html
-            <div v-bind:class="{ red: isRed }"></div>
-            ```
+    ```js
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        counter: 0
+      },
+      // 在 methods 对象中定义方法
+      methods: {
+        addCounter: function (e) {
+          // this 在方法里指向当前 Vue 实例
+          this.counter += 1；
+          // e 是原生 DOM 事件
+          cosnole.log(e.target)；
+        }
+      }
+    })
+    ```
 
-            上面的语法表示 active 这个 class 存在与否将取决于数据属性 isActive 的 真假。
+-   methods 中的函数，也会直接代理给 Vue 实例对象，所以可以直接运行：
 
-        -   数组语法
-            我们可以把一个数组传给 v-bind:class，以应用一个 class 列表
+    ```js
+    vm.addCounter();
+    ```
 
-            ```html
-            <div v-bind:class="[classA, classB]"></div>
-            ```
+-   除了直接绑定到一个方法，也可以在内联 JavaScript 语句中调用方法：
 
-        -   在数组语法总可以使用三元表达式来切换 class
+    ```html
+    <div id="app">
+        <button v-on:click="addCounter(5)">点击加 5</button>
+        <p>按钮被点击了 {{ counter }} 次</p>
+    </div>
+    ```
 
-            ```html
-            <div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
-            ```
+    ```js
+    new Vue({
+        el: '#app',
+        data: {
+            counter: 0,
+        },
+        methods: {
+            addCounter: function (num) {
+                this.counter += 5;
+            },
+        },
+    });
+    ```
 
-        -   在数组语法中可以使用对象语法
+-   在内联语句中使用事件对象时，可以利用特殊变量 \$event:
 
-            ```html
-            <div v-bind:class="[classA, { classB: isB, classC: isC }]">
-                <div v-bind:class="classA" class="red"></div>
-            </div>
-            ```
+    ```html
+    <div id="app">
+        <button v-on:click="addCounter(5, $event)">点击加 5</button>
+        <p>按钮被点击了 {{ counter }} 次</p>
+    </div>
+    ```
 
-        -   v-bind:class 可以与普通 class 共存
+    ```js
+    new Vue({
+      el: '#app',
+      methods: {
+        addCounter: function (num, e) {
+          this.counter += 5;
+          cosnole.log(e.target)；
+        }
+      }
+    })
+    ```
 
-            ```html
-            <div v-bind:class="classA" class="red"></div>
-            ```
+-   可以绑定动态事件，Vue 版本需要 2.6.0+
 
-    -   绑定 style
+    ```html
+    <div v-on:[event]="handleClick">点击，弹出1</div>
+    ```
 
-        -   使用对象语法
-            看着比较像 CSS，但其实是一个 JavaScript 对象
-            CSS 属性名可以用驼峰式(camelCase)或者短横线分隔(kebab-case)来命名
-            但是使用短横线分隔时，要用引号括起来
+    ```js
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            event: 'click',
+        },
+        methods: {
+            handleClick() {
+                alert(1);
+            },
+        },
+    });
+    ```
 
-            ```html
-            <div v-bind:style="{ fontSize: size + 'px' }"></div>
-            ```
+-   可以不带参数绑定一个对象，Vue 版本需要 2.4.0+。
 
-            ```js
-            data: {
-                size: 30;
-            }
-            ```
+    -   { 事件名：事件执行函数 }
+    -   使用此种方法不支持函数传参&修饰符
 
-            也可以直接绑定一个样式对象，这样模板会更清晰：
+    ```html
+    <div v-on="{ mousedown: doThis, mouseup: doThat }"></div>
+    ```
 
-            ```html
-            <div v-bind:style="styleObject"></div>
-            ```
+-   v-on 指令简写：`@`
 
-            ```js
-            data: {
-                styleObject: {
-                    fontSize: '13px';
-                }
-            }
-            ```
+## 为什么在 HTML 中监听事件?
 
-        -   使用数组语法
-            数组语法可以将多个样式对象应用到同一个元素
-
-            ```html
-            <div v-bind:style="[styleObjectA, styleObjectB]"></div>
-            ```
-
-        -   自动添加前缀
-            绑定 style 时，使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，Vue.js 会自动侦测并添加相应的前缀。
-
-        -   多重值
-            从 2.3.0 起你可以为 style 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值:
-
-            ```html
-            <div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
-            ```
-
-            这样写只会渲染数组中最后一个被浏览器支持的值。在本例中，如果浏览器支持不带浏览器前缀的 flexbox，那么就只会渲染 display: flex。
-
--   缩写: `:`
-
--   修饰符：
-    修饰符 (modifier) 是以英文句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
-
-    -   .camel
-        由于绑定特性时，会将大写字母转换为小写字母，如：
-
-        ```html
-        <!-- 最终渲染的结果为：<svg viewbox="0 0 100 100"></svg> -->
-        <svg :viewBox="viewBox"></svg>
-        ```
-
-        所以，Vue 提供了 v-bind 修饰符 camel，该修饰符允许在使用 DOM 模板时将 v-bind 属性名称驼峰化，例如 SVG 的 viewBox 属性
-
-        ```html
-        <svg :view-box.camel="viewBox"></svg>
-        ```
-
-    -   .prop
-        被用于绑定 DOM 属性 (property)
-
-        ```html
-        <div v-bind:text-content.prop="text"></div>
-        ```
-
-    -   .sync
-        组件时使用
+1. 扫一眼 HTML 模板便能轻松定位在 JavaScript 代码里对应的方法。
+2. 因为你无须在 JavaScript 里手动绑定事件，你的 ViewModel 代码可以是非常纯粹的逻辑，和 DOM 完全解耦，更易于测试
+3. 当一个 ViewModel 被销毁时，所有的事件处理器都会自动被删除。你无须担心如何清理它们

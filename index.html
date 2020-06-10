@@ -10,57 +10,34 @@
 
 <body>
     <div id="app">
-        <!-- 绑定一个属性 -->
-        <!-- <img v-bind:src="imgUrl"> -->
+        <!-- 正常写法 -->
+        <!-- <button v-on:click='addCount'>点击+1</button> -->
 
-        <!-- 绑定动态特性名 -->
-        <!-- <div v-bind:[test]='value'></div> -->
+        <!-- 简写 -->
+        <!-- <button @click='addCount'>点击+1</button> -->
 
-        <!-- 字符串拼接 -->
-        <!-- <img :src="'https://' + imgUrl"> -->
+        <!-- 传递参数 -->
+        <!-- <button @click='addCount(5,$event)'>点击+5</button> -->
 
-        <!-- 绑定一个有属性的对象 -->
-        <!-- <div v-bind="{a:'aa',b:value,'test-a':'bbb'}"></div> -->
+        <!-- 动态事件绑定 -->
+        <!-- <button @[event]='addCount(5,$event)'>点击+5</button> -->
 
-        <!-- class对象语法 -->
-        <!-- <div :class="{red:isRed,green:isGreen}">测试class对象语法</div> -->
-
-        <!-- class数组语法 -->
-        <!-- <div :class="[{red:isRed},'green','aaa']"></div> -->
-
-        <!-- style对象语法 -->
-        <!-- <div :style="{color:'red',fontSize:'20px'}">test测试style</div> -->
-        <!-- <div :style="styleObj">test测试style</div> -->
-
-        <!-- style数组语法 -->
-        <!-- <div :style="[styleObj,styleObj2]">test测试style</div> -->
-
-        <!-- 修饰符 -->
-        <!-- camel 将-分隔的字母进行转为小驼峰命名法 -->
-        <!-- <svg :view-box.camel="viewBox"></svg> -->
-
-        <!-- prop 绑定到dom属性 -->
-        <!-- <div :a.prop="'ddd'"></div> -->
+        <p>当前被点击{{ count }}次</p>
     </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                imgUrl: 'dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1906469856,4113625838&fm=26&gp=0.jpg',
-                test: 'test',
-                value: '测试',
-                isRed: true,
-                isGreen: true,
-                styleObj: {
-                    color: 'red',
-                    fontSize: '20px'
-                },
-                styleObj2: {
-                    backgroundColor: 'yellow'
-                },
-                viewBox: '0 0 100 100'
-            }
+                count: 0,
+                event: 'click'
+            },
+            methods: {
+                addCount(num, e) {
+                    this.count += num;
+                    console.log(e.target);
+                }
+            },
         })
     </script>
 </body>
