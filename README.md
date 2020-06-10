@@ -1,139 +1,68 @@
-# Vue 相关指令
+# 条件渲染
 
--   具有特殊含义、拥有特殊功能的特性
--   指令带有 v-前缀，表示它们是 Vue 提供的特殊特性
--   指令可以直接使用 data 中的数据
+## v-if
 
-## v-pre
+-   用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。
 
--   跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译。
+> 切换多个元素
 
-    ```html
-    <!-- 不会被编译 -->
-    <span v-pre>{{ msg }}</span>
-    ```
-
-## v-cloak
-
--   这个指令保持在元素上直到关联实例结束编译
-
--   可以解决闪烁的问题
-
--   和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕
-
-    ```css
-    [v-cloak] {
-        display: none;
-    }
-    ```
+-   因为 v-if 是一个指令，所以必须将它添加到一个元素上，但是如果想切换多个元素呢？此时可以把一个 `<template>` 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 `<template>` 元素
 
     ```html
-    <!-- {{ message }}不会显示，直到编译结束 -->
-    <div v-cloak>
-        {{ message }}
+    <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    ```
+
+## v-else
+
+-   为 v-if 或者 v-else-if 添加“else 块”。
+
+-   **_注意_**：前一兄弟元素必须有 v-if 或 v-else-if
+
+    ```html
+    <div v-if="Math.random() > 0.5">
+        杉杉
+    </div>
+    <div v-else>
+        你看不见杉杉啦
     </div>
     ```
 
-## v-once
+## v-else-if
 
--   只渲染元素一次。随后的重新渲染，元素及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能
+-   表示 v-if 的 “else if 块”。可以链式调用。
+
+-   **_注意_**：前一兄弟元素必须有 v-if 或 v-else-if
 
     ```html
-    <!-- 单个元素 -->
-    <span v-once>{{msg}}</span>
-    <!-- 有子元素 -->
-    <div v-once>
-        <h1>comment</h1>
-        <p>{{msg}}</p>
+    <div v-if="type === 'A'">
+        A
+    </div>
+    <div v-else-if="type === 'B'">
+        B
+    </div>
+    <div v-else-if="type === 'C'">
+        C
+    </div>
+    <div v-else>
+        Not A/B/C
     </div>
     ```
 
-## v-text
+## v-show
 
--   更新元素的 textContent
-
-    ```html
-    <span v-text="msg"></span>
-    <!-- 和下面的一样 -->
-    <span>{{msg}}</span>
-    ```
-
-> v-text VS Mustache
-
--   v-text 替换元素中所有的文本，Mustache 只替换自己，不清空元素内容
+-   根据表达式之真假值，切换元素的 display CSS 属性。
 
     ```html
-    <!-- 渲染为：<span>杉杉最美</span> -->
-    <span v-text="msg">----</span>
-    <!-- 渲染为：<span>----杉杉最美----</span> -->
-    <span>----{{msg}}----</span>
+    <h1 v-show="ok">Hello!</h1>
     ```
 
--   v-text 优先级高于 {{ }}
+## v-if VS v-show
 
-> textContent VS innerText
-
-1. 设置文本替换时，两者都会把指定节点下的所有子节点也一并替换掉。
-2. textContent 会获取所有元素的内容，包括 `<script>` 和 `<style>`元素，然而 innerText 不会。
-3. innerText 受 CSS 样式的影响，并且不会返回隐藏元素的文本，而 textContent 会。
-4. 由于 innerText 受 CSS 样式的影响，它会触发重排（reflow），但 textContent 不会。
-5. innerText 不是标准制定出来的 api，而是 IE 引入的，所以对 IE 支持更友好。textContent 虽然作为标准方法但是只支持 IE8+以上的浏览器，在最新的浏览器中，两个都可以使用。
-6. 综上，Vue 这里使用 textContent 是从性能的角度考虑的。
-
-> 测试一下 innerText & textContent 两者性能
-
-```html
-<ul class="list">
-    <li>1</li>
-    <!-- 此处省略998个 -->
-    <li>1000</li>
-</ul>
-```
-
-```js
-const oList = document.getElementById('list');
-
-console.time('innerText');
-for (let i = 0; i < oList.childElementCount; i++) {
-    ul.children[i].innerText = 'innerText';
-}
-console.timeEnd('innerText');
-
-console.time('textContent');
-for (let i = 0; i < oList.childElementCount; i++) {
-    ul.children[i].textContent = 'innerText';
-}
-console.timeEnd('textContent');
-```
-
-## v-html
-
--   更新元素的 innerHTML
-
--   **_注意_**：内容按普通 HTML 插入，不会作为 Vue 模板进行编译
-
--   在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。只在可信内容上使用 v-html，永不用在用户提交的内容上。
-
-    ```html
-    <input type="text" />
-    <button>点击</button>
-    <div id="app">
-        <div v-html="msg"></div>
-    </div>
-    ```
-
-    ```js
-    const vm = new Vue({
-        el: '#app',
-        data: {
-            msg: 'hello world',
-        },
-    });
-
-    const oInput = document.getElementsByTagName('input')[0];
-    const oButton = document.getElementsByTagName('button')[0];
-    let msg = null;
-    oButton.onclick = function () {
-        vm.msg = oInput.value;
-    };
-    ```
+1. v-if 是惰性的，如果在初始渲染时条件为假，则什么也不做，直到条件第一次变为真时，才会开始渲染条件块。v-show 则不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+2. v-if 有更高的切换开销，v-show 有更高的初始渲染开销，如果需要非常频繁地切换，则使用 v-show 较好，如果在运行时条件很少改变，则使用 v-if 较好
+3. v-show 不支持`<template>`元素
+4. v-show 不支持 v-else/v-else-if

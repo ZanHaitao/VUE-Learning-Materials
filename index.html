@@ -9,29 +9,34 @@
 </head>
 
 <body>
-    <!-- v-pre -->
-    <div id="app" v-pre>{{ msg }}</div>
+    <div id="app">
+        <div v-if='show'>test</div>
+        <div v-if='hide'>test</div>
 
-    <!-- v-cloak -->
-    <div id="app" v-cloak>{{ msg }}</div>
+        <div v-if="type === 'A'">这里是A</div>
+        <div v-else-if="type === 'B'">这里是B</div>
+        <div v-else-if="type === 'C'">这里是C</div>
+        <div v-else>这里是其他</div>
 
-    <!-- v-once -->
-    <div id="app" v-once>{{ msg }}</div>
+        <template v-if='show'>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+        </template>
 
-    <!-- v-text -->
-    <div id="app" v-text="text"></div>
-
-
-    <!-- v-html -->
-    <div id="app" v-html="html"></div>
+        <div v-show='hide'>v-show</div>
+        <div v-if='hide'>v-if</div>
+    </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: 'test测试',
-                text: 'text测试',
-                html: '<p>html测试</p>'
+                show: true,
+                hide: false,
+                type: 'A'
             }
         })
     </script>
