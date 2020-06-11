@@ -10,32 +10,63 @@
 
 <body>
     <div id="app">
-        <!-- 正常写法 -->
-        <!-- <button v-on:click='addCount'>点击+1</button> -->
+        <!-- .stop阻止事件冒泡 -->
+        <div @click="click('div')" :style="{backgroundColor:'red'}">
+            <button @click.stop="click('button')">点击</button>
+        </div>
 
-        <!-- 简写 -->
-        <!-- <button @click='addCount'>点击+1</button> -->
+        <!-- .prevent阻止默认行为 -->
+        <a href="https://www.baidu.com" @click.prevent="click('a标签')">点击跳转百度</a>
 
-        <!-- 传递参数 -->
-        <!-- <button @click='addCount(5,$event)'>点击+5</button> -->
+        <!-- .capture开启事件捕获 -->
+        <div @click.capture="click('div')" :style="{backgroundColor:'red'}">
+            <button @click="click('button')">点击</button>
+        </div>
 
-        <!-- 动态事件绑定 -->
-        <!-- <button @[event]='addCount(5,$event)'>点击+5</button> -->
+        <!-- .self监听本元素触发 -->
+        <div @click.self="click('div')" :style="{backgroundColor:'red','margin-top':'5px'}">
+            <button @click="click('button')">点击</button>
+        </div>
 
-        <p>当前被点击{{ count }}次</p>
+        <!-- .once只触发一次 -->
+        <div @click="click('div')" :style="{backgroundColor:'red','margin-top':'5px'}">
+            <button @click.once="click('button')">点击</button>
+        </div>
+
+        <!-- .passive -->
+        <button @click.passive="handleTest">点击</button>
+
+        <!-- 按键修饰符 -->
+        <div>
+            <input type="text" @keydown.enter="key">
+        </div>
+        <div>
+            <input type="text" @keydown.v="key">
+        </div>
+
+        <!-- 系统修饰键 -->
+        <div :style="{backgroundColor:'red'}" @click.alt="click('click')">test</div>
+        <div :style="{backgroundColor:'red','margin-top':'5px'}" @click.alt.exact="click('click')">test</div>
+
+        <!-- 鼠标修饰键 -->
+        <div :style="{backgroundColor:'red','margin-top':'5px'}" @click.right="click('click')">test</div>
+
     </div>
 
     <script>
+        Vue.config.keyCodes = {
+            v: 86
+        }
         const vm = new Vue({
             el: '#app',
-            data: {
-                count: 0,
-                event: 'click'
-            },
             methods: {
-                addCount(num, e) {
-                    this.count += num;
-                    console.log(e.target);
+                click(info) {
+                    alert(info);
+                },
+                handleTest() {
+                },
+                key() {
+                    console.log('a');
                 }
             },
         })
