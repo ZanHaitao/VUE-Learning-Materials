@@ -10,66 +10,66 @@
 
 <body>
     <div id="app">
-        <!-- .stop阻止事件冒泡 -->
-        <div @click="click('div')" :style="{backgroundColor:'red'}">
-            <button @click.stop="click('button')">点击</button>
-        </div>
+        <ul>
+            <!-- v-for 使用数组 -->
+            <!-- <li v-for="(food,index) in foods">{{ index +" --- "+ food}}</li> -->
 
-        <!-- .prevent阻止默认行为 -->
-        <a href="https://www.baidu.com" @click.prevent="click('a标签')">点击跳转百度</a>
+            <!-- v-for 使用对象 -->
+            <!-- <li v-for="(value,key,index) in eat">
+                {{value +" --- "+ key +" --- "+ index}}
+            </li> -->
 
-        <!-- .capture开启事件捕获 -->
-        <div @click.capture="click('div')" :style="{backgroundColor:'red'}">
-            <button @click="click('button')">点击</button>
-        </div>
+            <!-- v-for 使用数字 -->
+            <!-- <li v-for="item in 10">{{item}}</li> -->
 
-        <!-- .self监听本元素触发 -->
-        <div @click.self="click('div')" :style="{backgroundColor:'red','margin-top':'5px'}">
-            <button @click="click('button')">点击</button>
-        </div>
+            <!-- v-for 使用字符串 -->
+            <!-- <li v-for="item in 'abcdefg'">{{item}}</li> -->
 
-        <!-- .once只触发一次 -->
-        <div @click="click('div')" :style="{backgroundColor:'red','margin-top':'5px'}">
-            <button @click.once="click('button')">点击</button>
-        </div>
+            <!-- v-for 包含多个元素 -->
+            <!-- <template v-for="student in students">
+                <li>姓名：{{student.name}}</li>
+                <span>年龄：{{student.age}}</span>
+            </template> -->
 
-        <!-- .passive -->
-        <button @click.passive="handleTest">点击</button>
+            <!-- key的使用 -->
+            <!-- <li v-for="(student,index) in students" :key="student.name">
+                {{student.name}}
+                <input type="text">
+                <button @click="click(index)">下移</button>
+            </li> -->
 
-        <!-- 按键修饰符 -->
-        <div>
-            <input type="text" @keydown.enter="key">
-        </div>
-        <div>
-            <input type="text" @keydown.v="key">
-        </div>
-
-        <!-- 系统修饰键 -->
-        <div :style="{backgroundColor:'red'}" @click.alt="click('click')">test</div>
-        <div :style="{backgroundColor:'red','margin-top':'5px'}" @click.alt.exact="click('click')">test</div>
-
-        <!-- 鼠标修饰键 -->
-        <div :style="{backgroundColor:'red','margin-top':'5px'}" @click.right="click('click')">test</div>
-
+            <!-- v-for 与 v-if 共用 尽量选择使用filter解决 -->
+            <!-- <li v-for="student in studentActive" :key="student.name">{{student.name}}</li> -->
+        </ul>
     </div>
 
     <script>
-        Vue.config.keyCodes = {
-            v: 86
-        }
         const vm = new Vue({
             el: '#app',
+            data: {
+                foods: ["牛奶", "汉堡", "鸡腿"],
+                eat: {
+                    food1: "牛奶",
+                    food2: "汉堡",
+                    food3: "鸡腿"
+                },
+                students: [
+                    { name: '小明', age: 18, isActive: true },
+                    { name: '小王', age: 20, isActive: false },
+                    { name: '小张', age: 22, isActive: true },
+                    { name: '小李', age: 21, isActive: false },
+                ],
+                studentActive: []
+            },
             methods: {
-                click(info) {
-                    alert(info);
-                },
-                handleTest() {
-                },
-                key() {
-                    console.log('a');
+                click(index) {
+                    const del = this.students.splice(index, 1);
+                    this.students.splice(index + 1, 0, ...del);
                 }
             },
         })
+
+        vm.studentActive = vm.students.filter(item => item.isActive);
     </script>
 </body>
 
