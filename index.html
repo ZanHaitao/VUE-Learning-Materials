@@ -11,23 +11,44 @@
 
 <body>
     <div id="app">
-        <div class="goods" v-for="( goods, goodsIndex ) in goodsList" :key="goods.id">
-            <div class="title">{{ goods.title }}：</div>
-            <ul class="type-list">
-                <li class="type" :class="{ active : typeIndex === goods.index }"
-                    v-for="( type, typeIndex ) in goods.typeList" :key="type"
-                    @click="addFilterHandle( type, typeIndex, goods, goodsIndex )">
-                    {{ type }}
+        <div class="header">
+            <div class="container">
+                <div class="logo">
+                    TodoList
+                </div>
+                <div class="input-area">
+                    <input type="text" @input="inputChange" @keydown.enter="sendTask" :value="needStr">
+                    <button @click="sendTask">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>
+                <span>正在进行</span>
+                <span class="mask-num">{{ currentTask.length }}</span>
+            </h2>
+            <ul class="mask-list">
+                <li v-for="( task, index ) in currentTask" :key="task.id">
+                    <div>
+                        <input type="checkbox" @change="checkSelect(index,'current')">
+                        <span>{{ task.title }}</span>
+                    </div>
+                    <button @click="deleteTask(index,'current')">删除</button>
                 </li>
             </ul>
         </div>
-        <div class="choose-type">
-            <div>已选条件:</div>
-            <span class="no-goods" v-if="!flag">暂时没有选择过滤条件</span>
-            <ul class="filter-list" v-else>
-                <li v-for="( filter, filterKey ) in filterObj" @click="deleteFilter( filter, filterKey )">
-                    {{ filter }}
-                    <span class="delete-goods">x</span>
+        <div class="container">
+            <h2>
+                <span>已经完成</span>
+                <span class="mask-num">{{ completeTask.length }}</span>
+            </h2>
+            <ul class="mask-list complete-list">
+                <li v-for="( task, index ) in completeTask">
+                    <div>
+                        <input type="checkbox" checked @change="checkSelect(index,'complete')">
+                        <span>{{ task.title }}</span>
+                    </div>
+                    <button @click="deleteTask(index,'complete')">删除</button>
                 </li>
             </ul>
         </div>
@@ -37,51 +58,41 @@
         const vm = new Vue({
             el: '#app',
             data: {
-                filterObj: {},
-                flag: false,
-                goodsList: [
-                    {
-                        title: '上装',
-                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
-                        id: 1,
-                    },
-                    {
-                        title: '裤装',
-                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
-                        id: 2,
-                    },
-                    {
-                        title: '裙装',
-                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
-                        id: 3,
-                    },
-                ]
+                needStr: "",
+                currentTask: [],
+                completeTask: [],
             },
             methods: {
-                addFilterHandle(type, typeIndex, goods, goodsIndex) {
-                    if (type === "全部") {
-                        this.$delete(this.filterObj, goodsIndex);
-                        goods.index = 0;
-                        this.changeFilter();
-                        return;
+                inputChange(e) {
+                    this.needStr = e.target.value;
+                },
+                sendTask() {
+                    if (this.needStr.trim().length === 0) {
+                        this.needStr = "";
+                        alert("请输入内容后提交！")
+                    } else {
+                        this.currentTask.push({ title: this.needStr, id: Math.random() })
+                        this.needStr = "";
                     }
-                    this.flag = true;
-                    goods.index = typeIndex;
-                    this.$set(this.filterObj, goodsIndex, type);
                 },
-                deleteFilter(filter, filterKey) {
-                    this.$delete(this.filterObj, filterKey);
-                    this.goodsList[filterKey].index = 0;
-                    this.changeFilter();
+                checkSelect(index, type) {
+                    if (type === "current") {
+                        const del = this.currentTask.splice(index, 1);
+                        this.completeTask.push(...del);
+                    } else {
+                        const del = this.completeTask.splice(index, 1);
+                        this.currentTask.push(...del);
+                    }
                 },
-                changeFilter() {
-                    const filterObjStr = JSON.stringify(this.filterObj);
-                    this.flag = filterObjStr !== "{}";
+                deleteTask(index, type) {
+                    const task = type === 'current' ? this.currentTask : this.completeTask;
+                    task.splice(index, 1);
                 }
             },
         })
 
-        vm.goodsList.forEach(goods => vm.$set(goods, "index", 0));
+
+
     </script>
 </body>
 
