@@ -11,13 +11,13 @@
 
 <body>
     <div id="app">
-        <div class="goods" v-for="(goods,goodsIndex) in goodsList" :key="goods.id">
-            <div class="title">{{goods.title}}：</div>
+        <div class="goods" v-for="( goods, goodsIndex ) in goodsList" :key="goods.id">
+            <div class="title">{{ goods.title }}：</div>
             <ul class="type-list">
-                <li class="type" :class="{active : typeIndex === goods.index}"
-                    v-for="(type,typeIndex) in goods.typeList" :key="type"
-                    @click="addFilterHandle(type,typeIndex,goods,goodsIndex)">
-                    {{type}}
+                <li class="type" :class="{ active : typeIndex === goods.index }"
+                    v-for="( type, typeIndex ) in goods.typeList" :key="type"
+                    @click="addFilterHandle( type, typeIndex, goods, goodsIndex )">
+                    {{ type }}
                 </li>
             </ul>
         </div>
@@ -25,8 +25,8 @@
             <div>已选条件:</div>
             <span class="no-goods" v-if="!flag">暂时没有选择过滤条件</span>
             <ul class="filter-list" v-else>
-                <li v-for="(filter,filterKey) in filterObj" @click="deleteFilter(filter,filterKey)">
-                    {{filter}}
+                <li v-for="( filter, filterKey ) in filterObj" @click="deleteFilter( filter, filterKey )">
+                    {{ filter }}
                     <span class="delete-goods">x</span>
                 </li>
             </ul>
