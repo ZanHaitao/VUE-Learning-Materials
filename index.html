@@ -11,84 +11,52 @@
 
 <body>
     <div id="app">
-        <div class="header">
-            <div class="container">
-                <div class="logo">
-                    TodoList
-                </div>
-                <div class="input-area">
-                    <input type="text" @input="inputChange" @keydown.enter="sendTask" :value="needStr">
-                    <button @click="sendTask">确定</button>
-                </div>
-            </div>
+        <div>
+            <p>{{ msg }}</p>
+            <input type="text" v-model.lazy='msg'>
         </div>
-        <div class="container">
-            <h2>
-                <span>正在进行</span>
-                <span class="mask-num">{{ currentTask.length }}</span>
-            </h2>
-            <ul class="mask-list">
-                <li v-for="( task, index ) in currentTask" :key="task.id">
-                    <div>
-                        <input type="checkbox" @change="checkSelect(index,'current')">
-                        <span>{{ task.title }}</span>
-                    </div>
-                    <button @click="deleteTask(index,'current')">删除</button>
-                </li>
-            </ul>
+        <div>
+            <input type="checkbox" id="apple" value="苹果" v-model="checkedList">
+            <label for="apple">苹果</label>
+            <input type="checkbox" id="pear" value="梨子" v-model="checkedList">
+            <label for="pear">梨子</label>
+            <input type="checkbox" id="banana" value="香蕉" v-model="checkedList">
+            <label for="banana">香蕉</label>
+            <p>{{checkedList.join(' ')}}</p>
         </div>
-        <div class="container">
-            <h2>
-                <span>已经完成</span>
-                <span class="mask-num">{{ completeTask.length }}</span>
-            </h2>
-            <ul class="mask-list complete-list">
-                <li v-for="( task, index ) in completeTask">
-                    <div>
-                        <input type="checkbox" checked @change="checkSelect(index,'complete')">
-                        <span>{{ task.title }}</span>
-                    </div>
-                    <button @click="deleteTask(index,'complete')">删除</button>
-                </li>
-            </ul>
+
+        <div>
+            <input type="radio" id="apple1" value="苹果" v-model="radio">
+            <label for="apple1">苹果</label>
+            <input type="radio" id="pear1" value="梨子" v-model="radio">
+            <label for="pear1">梨子</label>
+            <input type="radio" id="banana1" value="香蕉" v-model="radio">
+            <label for="banana1">香蕉</label>
+            <p>{{radio}}</p>
         </div>
+
+        <div>
+            <select v-model="select">
+                <option value="请选择" disabled>请选择</option>
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广州">广州</option>
+            </select>
+            <p>{{select}}</p>
+        </div>
+
+
     </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                needStr: "",
-                currentTask: [],
-                completeTask: [],
-            },
-            methods: {
-                inputChange(e) {
-                    this.needStr = e.target.value;
-                },
-                sendTask() {
-                    if (this.needStr.trim().length === 0) {
-                        this.needStr = "";
-                        alert("请输入内容后提交！")
-                    } else {
-                        this.currentTask.push({ title: this.needStr, id: Math.random() })
-                        this.needStr = "";
-                    }
-                },
-                checkSelect(index, type) {
-                    if (type === "current") {
-                        const del = this.currentTask.splice(index, 1);
-                        this.completeTask.push(...del);
-                    } else {
-                        const del = this.completeTask.splice(index, 1);
-                        this.currentTask.push(...del);
-                    }
-                },
-                deleteTask(index, type) {
-                    const task = type === 'current' ? this.currentTask : this.completeTask;
-                    task.splice(index, 1);
-                }
-            },
+                msg: "hello",
+                checkedList: [],
+                radio: "苹果",
+                select: "请选择"
+            }
         })
 
 
