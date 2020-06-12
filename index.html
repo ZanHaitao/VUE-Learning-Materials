@@ -11,52 +11,46 @@
 
 <body>
     <div id="app">
-        <div>
-            <p>{{ msg }}</p>
-            <input type="text" v-model.lazy='msg'>
-        </div>
-        <div>
-            <input type="checkbox" id="apple" value="苹果" v-model="checkedList">
-            <label for="apple">苹果</label>
-            <input type="checkbox" id="pear" value="梨子" v-model="checkedList">
-            <label for="pear">梨子</label>
-            <input type="checkbox" id="banana" value="香蕉" v-model="checkedList">
-            <label for="banana">香蕉</label>
-            <p>{{checkedList.join(' ')}}</p>
-        </div>
-
-        <div>
-            <input type="radio" id="apple1" value="苹果" v-model="radio">
-            <label for="apple1">苹果</label>
-            <input type="radio" id="pear1" value="梨子" v-model="radio">
-            <label for="pear1">梨子</label>
-            <input type="radio" id="banana1" value="香蕉" v-model="radio">
-            <label for="banana1">香蕉</label>
-            <p>{{radio}}</p>
-        </div>
-
-        <div>
-            <select v-model="select">
-                <option value="请选择" disabled>请选择</option>
-                <option value="北京">北京</option>
-                <option value="上海">上海</option>
-                <option value="广州">广州</option>
-            </select>
-            <p>{{select}}</p>
-        </div>
-
-
+        <input type="text" v-model.number.lazy="num1">
+        <select v-model="type">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" v-model.number.lazy="num2">
+        <button @click="handleClick">=</button>
+        <span>{{ result }}</span>
     </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: "hello",
-                checkedList: [],
-                radio: "苹果",
-                select: "请选择"
-            }
+                num1: 0,
+                num2: 0,
+                type: '+',
+                result: 0
+            },
+            methods: {
+                handleClick() {
+                    const { num1, num2, type } = this;
+                    switch (type) {
+                        case "+":
+                            this.result = num1 + num2;
+                            break;
+                        case "-":
+                            this.result = num1 - num2;
+                            break;
+                        case "*":
+                            this.result = num1 * num2;
+                            break;
+                        case "/":
+                            this.result = num1 / num2;
+                            break;
+                    }
+                }
+            },
         })
 
 
