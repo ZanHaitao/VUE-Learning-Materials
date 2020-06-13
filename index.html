@@ -7,22 +7,21 @@
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
     <script src="vue.js"></script>
-    <script src="vue-resource.js"></script>
+    <script src="axios.js"></script>
 </head>
 
 <body>
     <div id="app">
         <div class="username">
-            <input type="text" placeholder="用户名：" v-model="username">
+            <input type="text" placeholder="用户名：" v-model="name">
         </div>
         <div class="mail">
             <input type="text" placeholder="密码：" v-model="mail">
         </div>
         <div class="upload-btn" @click="upLoad">上传</div>
-        <div class="test-btn" @click="jsonp">jsonp</div>
         <div class="show-btn" @click="show">显示用户</div>
         <ul class="person-list" v-if="personList.length">
-            <li class="person" v-for="person in personList" >
+            <li class="person" v-for="person in personList">
                 <span>{{ person.name }}</span>
                 <span>{{ person.mail }}</span>
             </li>
@@ -30,45 +29,95 @@
     </div>
 
     <script>
+        axios.defaults.baseURL = 'https://developer.duyiedu.com/vue';
+
+        const instance = axios.create({
+            baseURL: 'https://developer.duyiedu.com/vue'
+        })
+
         const vm = new Vue({
             el: '#app',
             data: {
-                username: '',
+                name: '',
                 mail: '',
                 msg: '',
-                personList:[]
+                personList: []
             },
             methods: {
                 upLoad() {
-                    this.$http.post('https://developer.duyiedu.com/vue/setUserInfo', {
-                        name: this.username,
-                        mail: this.mail
-                    }).then(res => {
-                        this.msg = res.body.msg;
-                    }, err => {
-                        this.msg = err.body.msg;
+                    const { name, mail } = this;
+
+                    // axios('/setUserInfo', {
+                    //     method: 'post',
+                    //     baseURL: 'https://developer.duyiedu.com/vue',
+                    //     data: {
+                    //         name,
+                    //         mail
+                    //     }
+                    // }).then(res => {
+                    //     this.msg = res.data.msg;
+                    // })
+
+                    // axios.post('/setUserInfo', { name, mail }, {
+                    //     baseURL: 'https://developer.duyiedu.com/vue',
+                    // }).then(res => {
+                    //     this.msg = res.data.msg;
+                    // })
+
+                    // axios.post('/setUserInfo', { name, mail }).then(res => {
+                    //     this.msg = res.data.msg;
+                    // })
+
+                    instance.post('/setUserInfo', { name, mail }).then(res => {
+                        this.msg = res.data.msg;
                     })
+
+                    axios.all([ 
+                        axios.post('/setUserInfo', { name, mail }),
+                        axios.get('/getUserInfo')
+                    ]).then(axios.spread((postRes, getRes) => {
+                        console.log(postRes, getRes);
+                    }))
                 },
+
                 show() {
-                    this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res => {
-                        return res.json()
-                    }).then(res=>{
-                        this.personList = res.data.splice(0, 50);
+                    // axios({
+                    //     method: 'get',
+                    //     baseURL: 'https://developer.duyiedu.com/vue',
+                    //     url: '/getUserInfo'
+                    // }).then(res => {
+                    //     this.personList = res.data.data
+                    // })
+
+                    // axios('/getUserInfo', {
+                    //     method: 'get',
+                    //     baseURL: 'https://developer.duyiedu.com/vue',
+                    // }).then(res => {
+                    //     this.msg = res.data.msg;
+                    //     this.personList = res.data.data
+                    // })
+
+                    // axios.get('/getUserInfo', {
+                    //     baseURL: 'https://developer.duyiedu.com/vue',
+                    // }).then(res => {
+                    //     this.msg = res.data.msg;
+                    //     this.personList = res.data.data
+                    // })
+
+                    // axios.get('/getUserInfo').then((res) => {
+                    //     this.msg = res.data.msg;
+                    //     this.personList = res.data.data
+                    // })
+
+                    instance.get('/getUserInfo').then((res) => {
+                        this.msg = res.data.msg;
+                        this.personList = res.data.data
                     })
+
+
                 },
-                jsonp(){
-                    this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
-                        params:{
-                            wd:"GitHub"
-                        },
-                        jsonp:'cb'
-                    }).then(res=>{
-                        return res.json()
-                    }).then(res=>{
-                        console.log(res.s);
-                    })
-                }
             },
+
             watch: {
                 msg() {
                     if (this.msg === '') {
