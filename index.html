@@ -5,82 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
     <script src="vue.js"></script>
+    <script src="jquery.js"></script>
 </head>
 
 <body>
     <div id="app">
-        {{ msg }}
-        {{ obj }}
+        <div class="logo">
+            <img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="百度一下 你就知道">
+        </div>
+        <div class="search-box">
+            <div class="search-area">
+                <input type="text" v-model="inputValue" @focus="() => inputFocus = true" @blur="() => inputFocus = false">
+                <span class="icon icon-paizhao"></span>
+            </div>
+            <div class="search-btn">
+                百度一下
+            </div>
+        </div>
+        <ul class="search-list" v-show="inputFocus && searchList.length">
+            <li v-for="search in searchList">{{ search }}</li>
+        </ul>
     </div>
 
     <script>
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: "test",
-                obj: {
-                    name: "张三",
-                    age: 19
-                }
-            },
-            computed: {
-
+                inputFocus: false,
+                inputValue: '',
+                searchList: []
             },
             methods: {
-                changeValue() {
-                    console.log('msg被改变了');
+                searchListData(data) {
+                    this.searchList = data.s;
                 }
             },
             watch: {
-                // msg(){
-                //     console.log('msg被改变了');
-                // }
-                // msg(newValue, oldValue) {
-                //     console.log(`msg被改变了 newValue:${newValue} oldValue:${oldValue}`);
-                // }
-                // msg:'changeValue'
-                // obj: {
-                //     handler() {
-                //         console.log('obj被改变了');
-                //     },
-                //     deep: true,
-                //     immediate: true
-                // }
-                // obj:[
-                //     'changeValue',
-                //     function(){
-                //         console.log('obj被改变了');
-                //     },
-                //     {
-                //         handler(){
-                //             console.log('obj被改变了');
-                //         },
-                //         immediate:true,
-                //         deep:true
-                //     }
-                // ]
-                // 'obj.name':{
-                //     handler(){
-                //         console.log('obj.name 被改变了');
-                //     }
-                // }
+                inputValue() {
+                    $.ajax({
+                        dataType: "jsonp",
+                        url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+                        data: {
+                            wd: this.inputValue,
+                            cb: 'vm.searchListData'
+                        }
+                    })
+                }
             },
         })
 
-        // vm.$watch('msg', function () {
-        //     console.log('msg改变了');
-        // }, {
-        //     immediate: true
-        // })
-
-        // vm.$watch('obj',{
-        //     handler(){
-        //         console.log('obj 被改变了');
-        //     },
-        //     immediate:true,
-        //     deep:true
-        // })
     </script>
 </body>
 
