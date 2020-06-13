@@ -7,25 +7,25 @@
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
     <script src="vue.js"></script>
-    <script src="jquery.js"></script>
+    <script src="vue-resource.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="logo">
-            <img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="百度一下 你就知道">
+        <div class="username">
+            <input type="text" placeholder="用户名：" v-model="username">
         </div>
-        <div class="search-box">
-            <div class="search-area">
-                <input type="text" v-model="inputValue" @focus="() => inputFocus = true" @blur="() => inputFocus = false">
-                <span class="icon icon-paizhao"></span>
-            </div>
-            <div class="search-btn">
-                百度一下
-            </div>
+        <div class="mail">
+            <input type="text" placeholder="密码：" v-model="mail">
         </div>
-        <ul class="search-list" v-show="inputFocus && searchList.length">
-            <li v-for="search in searchList">{{ search }}</li>
+        <div class="upload-btn" @click="upLoad">上传</div>
+        <div class="test-btn" @click="jsonp">jsonp</div>
+        <div class="show-btn" @click="show">显示用户</div>
+        <ul class="person-list" v-if="personList.length">
+            <li class="person" v-for="person in personList" >
+                <span>{{ person.name }}</span>
+                <span>{{ person.mail }}</span>
+            </li>
         </ul>
     </div>
 
@@ -33,25 +33,50 @@
         const vm = new Vue({
             el: '#app',
             data: {
-                inputFocus: false,
-                inputValue: '',
-                searchList: []
+                username: '',
+                mail: '',
+                msg: '',
+                personList:[]
             },
             methods: {
-                searchListData(data) {
-                    this.searchList = data.s;
+                upLoad() {
+                    this.$http.post('https://developer.duyiedu.com/vue/setUserInfo', {
+                        name: this.username,
+                        mail: this.mail
+                    }).then(res => {
+                        this.msg = res.body.msg;
+                    }, err => {
+                        this.msg = err.body.msg;
+                    })
+                },
+                show() {
+                    this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res => {
+                        return res.json()
+                    }).then(res=>{
+                        this.personList = res.data.splice(0, 50);
+                    })
+                },
+                jsonp(){
+                    this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                        params:{
+                            wd:"GitHub"
+                        },
+                        jsonp:'cb'
+                    }).then(res=>{
+                        return res.json()
+                    }).then(res=>{
+                        console.log(res.s);
+                    })
                 }
             },
             watch: {
-                inputValue() {
-                    $.ajax({
-                        dataType: "jsonp",
-                        url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-                        data: {
-                            wd: this.inputValue,
-                            cb: 'vm.searchListData'
-                        }
-                    })
+                msg() {
+                    if (this.msg === '') {
+                        return
+                    } else {
+                        alert(this.msg);
+                        this.msg = '';
+                    }
                 }
             },
         })
