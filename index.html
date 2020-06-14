@@ -5,133 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="index.css">
     <script src="vue.js"></script>
-    <script src="axios.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="username">
-            <input type="text" placeholder="用户名：" v-model="name">
-        </div>
-        <div class="mail">
-            <input type="text" placeholder="密码：" v-model="mail">
-        </div>
-        <div class="upload-btn" @click="upLoad">上传</div>
-        <div class="show-btn" @click="show">显示用户</div>
-        <div class="test-btn" @click="test">取消请求</div>
-        <ul class="person-list" v-if="personList.length">
-            <li class="person" v-for="person in personList">
-                <span>{{ person.name }}</span>
-                <span>{{ person.mail }}</span>
-            </li>
-        </ul>
+
     </div>
 
     <script>
-        // axios.defaults.baseURL = 'https://developer.duyiedu.com/vue';
-        axios.defaults.baseURL = 'http://127.0.0.1:12306';
-
-
-        // 拦截器
-        const interceptor = axios.interceptors.request.use(config => {
-            // console.log(config);
-            return config;
-        })
-
-        axios.interceptors.response.use(response => {
-            return response.data;
-        }, error => {
-            if (error.response) {
-                alert('响应时错误')
-            } else if (error.request) {
-                alert('请求时错误')
-            } else {
-                alert(error.message)
-            }
-            return Promise.reject(error);
-        })
-
-        // 取消请求
-        const source = axios.CancelToken.source();
-
-        //取消拦截器
-        // axios.interceptors.request.eject(interceptor);
-
-        //为实例添加拦截器
-        // const instance = axios.create();
-        // instance.interceptors.request.use(config => {
-        //     console.log(config);
-        //     return config
-        // })
-
         const vm = new Vue({
             el: '#app',
-            data: {
-                name: '',
-                mail: '',
-                msg: '',
-                personList: []
-            },
-            methods: {
-                upLoad() {
-                    const { name, mail } = this;
-                    // axios.post('/setUserInfo1', { name, mail }).then(res => {
-                    //     this.msg = res.msg;
-                    // }).catch(err => {
-                    //     if (err.response) {
-                    //         alert('响应时错误')
-                    //     } else if (err.request) {
-                    //         alert('请求时错误')
-                    //     } else {
-                    //         alert(err.message)
-                    //     }
-                    // })
-
-                    axios.post('/setUserInfo1', { name, mail }).then(res => {
-                        this.msg = res.msg;
-                    })
-                },
-
-                show() {
-                    // axios.get('/getUserInfo', {
-                    //     cancelToken: source.token
-                    // }).then(res => {
-                    //     this.msg = res.msg;
-                    // }).catch(err => {
-                    //     if (err.response) {
-                    //         alert('响应时错误')
-                    //     } else if (err.request) {
-                    //         alert('请求时错误')
-                    //     } else {
-                    //         alert(err.message)
-                    //     }
-                    // })
-
-                    axios.get('/getUserInfo1', {
-                        cancelToken: source.token
-                    }).then(res => {
-                        this.msg = res.msg;
-                    })
-                },
-                test() {
-                    source.cancel('取消请求！！');
-                }
-            },
-
-            watch: {
-                msg() {
-                    if (this.msg === '') {
-                        return
-                    } else {
-                        alert(this.msg);
-                        this.msg = '';
-                    }
-                }
-            },
+            template: `<div id="app-10"></div>`
         })
-
     </script>
 </body>
 
