@@ -21,7 +21,6 @@ const vm = new Vue({
         },
         handleNavShow() {
             this.navListshow = !this.navListshow;
-            console.log(this.navListshow);
         },
         bannerMove() {
             this.bannerStyle.transition = 'left .5s';
