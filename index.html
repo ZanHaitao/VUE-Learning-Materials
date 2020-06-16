@@ -10,45 +10,27 @@
 
 <body>
     <div id="app">
-        {{ count }} <button @click="count ++">点击</button>
-        <button-count :count="count"></button-count>
+        <div-cmp type="radio"></div-cmp>
     </div>
-
     <script>
 
-        // 组件prop单项数据流
-        // Vue.component('button-count', {
-        //     props: {
-        //         count: Number
-        //     },
-        //     template: `
-        //         <div>
-        //            {{ count }} <button @click="count ++">点击</button>
-        //         </div>
-        //     `
-        // })
 
-        Vue.component('button-count', {
-            props: {
-                count: Number
-            },
-            data() {
-                return {
-                    myCount: this.count
-                }
-            },
+        Vue.component('div-cmp', {
+            props: ['a'],
+            // template: `
+            //     <div class="test1">{{ a }}</div>
+            // `
+            inheritAttrs: false,
             template: `
-                <div>
-                   {{ myCount }} <button @click="myCount ++">点击</button>
-                </div>
+                <label>
+                    确认
+                    <input v-bind="this.$attrs"/>
+                </label>
             `
         })
 
         const vm = new Vue({
             el: '#app',
-            data: {
-                count: 10
-            }
         })
 
 
