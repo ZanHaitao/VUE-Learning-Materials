@@ -10,29 +10,138 @@
 
 <body>
     <div id="app">
-        <div-cmp type="radio"></div-cmp>
+        <!-- <base-input :value.sync="testValue"></base-input> -->
+        <!-- <base-checkbox :checked.sync="checked"></base-checkbox> -->
+        <!-- <base-checkbox v-model="checked"></base-checkbox> -->
+        <!-- <base-input v-model="testValue"></base-input> -->
+        <!-- <base-input @focus="handleFocus" @blur="handleBlur"></base-input> -->
+        <!-- <div :style="{fontSize:fontSizeStyle + 'em'}"> -->
+        <!-- <blog-post :post-list="postList" @click.native="fontSizeStyle += 0.1"></blog-post> -->
+        <!-- <blog-post :post-list="postList" @enlarge-text="fontSizeStyle += $event"></blog-post> -->
+        <!-- </div> -->
     </div>
     <script>
 
+        // Vue.component('base-input', {
+        //     props: {
+        //         value: String
+        //     },
+        //     template: `
+        //         <input type="text" :value="value" @input="$emit('update:value',$event.target.value)"/>
+        //     `
+        // })
 
-        Vue.component('div-cmp', {
-            props: ['a'],
-            // template: `
-            //     <div class="test1">{{ a }}</div>
-            // `
-            inheritAttrs: false,
-            template: `
-                <label>
-                    确认
-                    <input v-bind="this.$attrs"/>
-                </label>
-            `
-        })
+        // Vue.component('base-checkbox', {
+        //     props: {
+        //         checked: Boolean,
+        //     },
+        //     template: `
+        //         <input type="checkbox" :checked="checked" @change="$emit('update:checked',$event.target.checked)"/>
+        //     `
+        // })
+
+        // Vue.component('base-checkbox', {
+        //     model:{
+        //         prop:'checked',
+        //         event:'change'
+        //     },
+        //     props: {
+        //         checked: Boolean,
+        //     },
+        //     template: `
+        //         <input type="checkbox" :checked="checked" @change="$emit('change',$event.target.checked)"/>
+        //     `
+        // })
+
+        // Vue.component('base-input', {
+        //     props: {
+        //         value: String,
+        //     },
+        //     template: `
+        //     <label>
+        //         姓名：
+        //         <input type="text" :value="value" @input="$emit('input',$event.target.value)"/>
+        //     </label>
+        //     `
+        // })
+
+
+        // Vue.component('base-input',{
+        //     template:`
+        //     <label>
+        //         姓名：
+        //         <input type="text" v-on="$listeners"/>
+        //     </label>
+        //     `
+        // })
+
+        // Vue.component('base-input', {
+        //     template: `
+        //     <input type="text"/>
+        //     `
+        // })
+
+        // Vue.component('base-input',{
+        //     template:`
+        //     <label>
+        //         姓名：
+        //         <input type="text" @focus="$emit('focus')" @blur="$emit('blur')"/>
+        //     </label>
+        //     `
+        // })
+
+        // Vue.component('blog-post', {
+        //     props: {
+        //         postList: Array
+        //     },
+        //     template: `
+        //     <ul>
+        //         <li v-for="post in postList" :key="post.id">
+        //             <h1>{{ post.title }}</h1>
+        //             <p>{{ post.content }}</p>
+        //             <button>加大字号</button>
+        //         </li>
+        //     </ul>
+        //     `
+        // })
+
+        // Vue.component('blog-post', {
+        //     props: {
+        //         postList: Array
+        //     },
+        //     template: `
+        //     <ul>
+        //         <li v-for="post in postList" :key="post.id">
+        //             <h1>{{ post.title }}</h1>
+        //             <p>{{ post.content }}</p>
+        //             <button @click="$emit('enlarge-text',0.2)">加大字号</button>
+        //         </li>
+        //     </ul>
+        //     `
+        // })
 
         const vm = new Vue({
             el: '#app',
+            data: {
+                fontSizeStyle: 1,
+                postList: [
+                    { id: 0, title: '老人与海', content: '老人与海老人与海老人与海' },
+                    { id: 1, title: '西游记', content: '西游记西游记西游记西游记西游记' },
+                    { id: 2, title: '三国演义', content: '三国演义三国演义三国演义三国演义' },
+                    { id: 3, title: '钢铁是怎样练成的', content: '钢铁是怎样练成的钢铁是怎样练成的钢铁是怎样练成的' },
+                ],
+                testValue: '哈哈',
+                checked: true
+            },
+            methods: {
+                handleFocus() {
+                    console.log('focus');
+                },
+                handleBlur() {
+                    console.log('blur');
+                },
+            },
         })
-
 
     </script>
 </body>
