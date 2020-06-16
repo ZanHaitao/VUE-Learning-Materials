@@ -10,38 +10,44 @@
 
 <body>
     <div id="app">
-        <list-user :list="list"></list-user>
+        {{ count }} <button @click="count ++">点击</button>
+        <button-count :count="count"></button-count>
     </div>
 
     <script>
 
-        // 组件prop验证
-        Vue.component('list-user', {
+        // 组件prop单项数据流
+        // Vue.component('button-count', {
+        //     props: {
+        //         count: Number
+        //     },
+        //     template: `
+        //         <div>
+        //            {{ count }} <button @click="count ++">点击</button>
+        //         </div>
+        //     `
+        // })
+
+        Vue.component('button-count', {
             props: {
-                // list: Array
-                list: {
-                    type: Array,
-                    default() {
-                        return [{ name: '哈哈' }, { name: '呵呵' }]
-                    },
-                    required: true,
-                    validator(prop) {
-                        return prop.length >= 2
-                    }
+                count: Number
+            },
+            data() {
+                return {
+                    myCount: this.count
                 }
             },
             template: `
-                <ul>
-                    <li v-for="user in list">{{ user.name }}</li>
-                </ul>
+                <div>
+                   {{ myCount }} <button @click="myCount ++">点击</button>
+                </div>
             `
         })
 
         const vm = new Vue({
             el: '#app',
             data: {
-                list: [{ name: '张三' }, { name: '李四' }]
-                // list:1
+                count: 10
             }
         })
 
