@@ -10,48 +10,41 @@
 
 <body>
     <div id="app">
-        <cmp-a>
-            <cmp-b>
-                <cmp-c></cmp-c>
-            </cmp-b>
-        </cmp-a>
+        <my-cmp></my-cmp>
+        <my-cmp1></my-cmp1>
     </div>
     <script>
+        // eventBus(事件总线)
+        Vue.prototype.$bus = new Vue();
 
-        Vue.component('cmp-a', {
-            provide() {
-                return {
-                    share: this.share
-                }
-            },
+        Vue.component('my-cmp', {
             data() {
                 return {
-                    share: 'share'
+                    msg: '兄弟组件通信'
+                }
+            },
+            methods: {
+                onClick() {
+                    this.$bus.$emit('bus', this.msg)
                 }
             },
             template: `
-                <div><slot></slot></div>
+                <div @click="onClick">测试</div>
             `
         })
 
-        Vue.component('cmp-b', {
+        Vue.component('my-cmp1', {
             mounted() {
-                console.log(this.$parent.share);
+                this.$bus.$on('bus', (res) => {
+                    console.log(res);
+                })
             },
             template: `
-                <div><slot></slot></div>
+                <div>兄弟组件</div>
             `
         })
 
-        Vue.component('cmp-c', {
-            inject: ['share'],
-            mounted() {
-                console.log(this.share);
-            },
-            template: `
-                <div><slot>{{ $root.msg }}</slot></div>
-            `
-        })
+
 
         const vm = new Vue({
             el: '#app',
