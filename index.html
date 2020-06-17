@@ -10,78 +10,54 @@
 
 <body>
     <div id="app">
-        <my-cmp></my-cmp>
-        <my-cmp1></my-cmp1>
+        <input type="text" v-slice:7="msg">
+        {{ msg }}
     </div>
     <script>
-        Vue.mixin({
-            mounted() {
-                const xxx = this.$options.xxx;
-                if(xxx){
-                    console.log('xxx');
-                }
-            },
+
+        // Vue.directive('focus', {
+        //     inserted(el) {
+        //         el.focus();
+        //     }
+        // })
+
+        // v-show
+        // Vue.directive('myshow', (el,binding) => {
+        //     const { value } = binding;
+        //     el.style.display = value ? '' : 'none';
+        // })
+
+        // v-model
+        // Vue.directive('mymodel', (el, binding, vnode) => {
+        //     const vm = vnode.context;
+        //     const { value, expression } = binding;
+        //     el.value = value;
+
+        //     el.oninput = () => {
+        //         vm[expression] = el.value;
+        //     }
+        // })
+
+        // v-slice
+        Vue.directive('slice', (el, binding, vnode) => {
+            const vm = vnode.context;
+            let { value, expression, arg = 5, modifiers } = binding;
+            if (modifiers.number) {
+               value = value.replace(/[^0-9]/g, '');
+            }
+            el.value = value.slice(0, arg);
+            vm[expression] = el.value;
+
+            el.oninput = () => {
+                vm[expression] = el.value;
+            }
         })
-
-        const mixin = {
-            data() {
-                return {
-                    a: 'test'
-                }
-            },
-            created() {
-                console.log('mixin Created');
-            },
-            methods: {
-                fn(){
-                    console.log('mixin fn');
-                }
-            },
-        }
-
-        Vue.component('my-cmp', {
-            xxx:'asd',
-            mixins: [mixin],
-            created() {
-                this.fn();
-                // console.log('cmp Created');
-            },
-            methods: {
-                // fn() {
-                //     console.log('cmp fn');
-                // }
-            },
-            template: `
-                <div>{{ a }}</div>
-            `
-        })
-
-        Vue.component('my-cmp1', {
-            mixins: [mixin],
-            data() {
-                return {
-                    a: 'aaaa'
-                }
-            },
-            created() {
-                // console.log('cmp Created');
-                this.fn();
-            },
-            methods: {
-                fn() {
-                    console.log('cmp fn');
-                }
-            },
-            template: `
-                <div>{{ a }}</div>
-            `
-        })
-
 
         const vm = new Vue({
             el: '#app',
             data: {
-                msg: '哈哈'
+                show: false,
+                msg: '哈哈哈'
             },
         })
 
