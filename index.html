@@ -14,36 +14,68 @@
         <my-cmp1></my-cmp1>
     </div>
     <script>
-        // eventBus(事件总线)
-        Vue.prototype.$bus = new Vue();
+        Vue.mixin({
+            mounted() {
+                const xxx = this.$options.xxx;
+                if(xxx){
+                    console.log('xxx');
+                }
+            },
+        })
 
-        Vue.component('my-cmp', {
+        const mixin = {
             data() {
                 return {
-                    msg: '兄弟组件通信'
+                    a: 'test'
                 }
+            },
+            created() {
+                console.log('mixin Created');
             },
             methods: {
-                onClick() {
-                    this.$bus.$emit('bus', this.msg)
+                fn(){
+                    console.log('mixin fn');
                 }
             },
+        }
+
+        Vue.component('my-cmp', {
+            xxx:'asd',
+            mixins: [mixin],
+            created() {
+                this.fn();
+                // console.log('cmp Created');
+            },
+            methods: {
+                // fn() {
+                //     console.log('cmp fn');
+                // }
+            },
             template: `
-                <div @click="onClick">测试</div>
+                <div>{{ a }}</div>
             `
         })
 
         Vue.component('my-cmp1', {
-            mounted() {
-                this.$bus.$on('bus', (res) => {
-                    console.log(res);
-                })
+            mixins: [mixin],
+            data() {
+                return {
+                    a: 'aaaa'
+                }
+            },
+            created() {
+                // console.log('cmp Created');
+                this.fn();
+            },
+            methods: {
+                fn() {
+                    console.log('cmp fn');
+                }
             },
             template: `
-                <div>兄弟组件</div>
+                <div>{{ a }}</div>
             `
         })
-
 
 
         const vm = new Vue({
