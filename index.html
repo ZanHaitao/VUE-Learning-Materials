@@ -10,136 +10,94 @@
 
 <body>
     <div id="app">
-        <!-- <base-input :value.sync="testValue"></base-input> -->
-        <!-- <base-checkbox :checked.sync="checked"></base-checkbox> -->
-        <!-- <base-checkbox v-model="checked"></base-checkbox> -->
-        <!-- <base-input v-model="testValue"></base-input> -->
-        <!-- <base-input @focus="handleFocus" @blur="handleBlur"></base-input> -->
-        <!-- <div :style="{fontSize:fontSizeStyle + 'em'}"> -->
-        <!-- <blog-post :post-list="postList" @click.native="fontSizeStyle += 0.1"></blog-post> -->
-        <!-- <blog-post :post-list="postList" @enlarge-text="fontSizeStyle += $event"></blog-post> -->
-        <!-- </div> -->
+
+        <!-- <my-cmp v-slot:default="{ user }">
+            {{ user }}
+        </my-cmp> -->
+
+        <!-- <my-cmp>
+            <template v-slot:default="{ user }">
+                {{ user.name }}
+            </template>
+        </my-cmp> -->
+
+        <!-- <my-cmp>
+            <template v-slot:default="slotProps">
+                {{ slotProps.user.name }}
+            </template>
+        </my-cmp> -->
+        <!-- <my-cmp>
+            <template #header>
+                <div>
+                    header区域
+                </div>
+            </template>
+
+            <div>内容区域</div>
+
+            <template #footer>
+                <div>
+                    footer区域
+                </div>
+            </template>
+        </my-cmp> -->
+        <!-- <my-button>Button</my-button> -->
+        <!-- <my-cmp>{{ name }}</my-cmp> -->
     </div>
     <script>
 
-        // Vue.component('base-input', {
-        //     props: {
-        //         value: String
+        // Vue.component('my-cmp', {
+        //     data() {
+        //         return {
+        //             user: {
+        //                 name: '张三',
+        //                 age: 18
+        //             }
+        //         }
         //     },
         //     template: `
-        //         <input type="text" :value="value" @input="$emit('update:value',$event.target.value)"/>
+        //         <div><slot :user="user"></slot></div>
         //     `
         // })
 
-        // Vue.component('base-checkbox', {
-        //     props: {
-        //         checked: Boolean,
-        //     },
+        // Vue.component('my-cmp', {
         //     template: `
-        //         <input type="checkbox" :checked="checked" @change="$emit('update:checked',$event.target.checked)"/>
+        //         <div>
+        //             <header>
+        //                 <slot name="header"></slot>
+        //             </header>
+        //             <div>
+        //                 <slot></slot>
+        //             </div>
+        //             <footer>
+        //                 <slot name="footer"></slot>
+        //             </footer>
+        //         </div>
         //     `
         // })
 
-        // Vue.component('base-checkbox', {
-        //     model:{
-        //         prop:'checked',
-        //         event:'change'
-        //     },
-        //     props: {
-        //         checked: Boolean,
-        //     },
-        //     template: `
-        //         <input type="checkbox" :checked="checked" @change="$emit('change',$event.target.checked)"/>
-        //     `
-        // })
-
-        // Vue.component('base-input', {
-        //     props: {
-        //         value: String,
-        //     },
-        //     template: `
-        //     <label>
-        //         姓名：
-        //         <input type="text" :value="value" @input="$emit('input',$event.target.value)"/>
-        //     </label>
-        //     `
-        // })
-
-
-        // Vue.component('base-input',{
+        // Vue.component('my-button',{
         //     template:`
-        //     <label>
-        //         姓名：
-        //         <input type="text" v-on="$listeners"/>
-        //     </label>
+        //         <div>
+        //             <button>
+        //                 <slot>Submit</slot>
+        //             </button>
+        //         </div>
         //     `
         // })
 
-        // Vue.component('base-input', {
-        //     template: `
-        //     <input type="text"/>
-        //     `
-        // })
-
-        // Vue.component('base-input',{
+        // Vue.component('my-cmp',{
         //     template:`
-        //     <label>
-        //         姓名：
-        //         <input type="text" @focus="$emit('focus')" @blur="$emit('blur')"/>
-        //     </label>
-        //     `
-        // })
-
-        // Vue.component('blog-post', {
-        //     props: {
-        //         postList: Array
-        //     },
-        //     template: `
-        //     <ul>
-        //         <li v-for="post in postList" :key="post.id">
-        //             <h1>{{ post.title }}</h1>
-        //             <p>{{ post.content }}</p>
-        //             <button>加大字号</button>
-        //         </li>
-        //     </ul>
-        //     `
-        // })
-
-        // Vue.component('blog-post', {
-        //     props: {
-        //         postList: Array
-        //     },
-        //     template: `
-        //     <ul>
-        //         <li v-for="post in postList" :key="post.id">
-        //             <h1>{{ post.title }}</h1>
-        //             <p>{{ post.content }}</p>
-        //             <button @click="$emit('enlarge-text',0.2)">加大字号</button>
-        //         </li>
-        //     </ul>
+        //         <div>
+        //             <slot></slot>
+        //         </div>
         //     `
         // })
 
         const vm = new Vue({
             el: '#app',
             data: {
-                fontSizeStyle: 1,
-                postList: [
-                    { id: 0, title: '老人与海', content: '老人与海老人与海老人与海' },
-                    { id: 1, title: '西游记', content: '西游记西游记西游记西游记西游记' },
-                    { id: 2, title: '三国演义', content: '三国演义三国演义三国演义三国演义' },
-                    { id: 3, title: '钢铁是怎样练成的', content: '钢铁是怎样练成的钢铁是怎样练成的钢铁是怎样练成的' },
-                ],
-                testValue: '哈哈',
-                checked: true
-            },
-            methods: {
-                handleFocus() {
-                    console.log('focus');
-                },
-                handleBlur() {
-                    console.log('blur');
-                },
+                name: '哈哈哈哈'
             },
         })
 
