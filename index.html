@@ -10,52 +10,53 @@
 
 <body>
     <div id="app">
-        <button v-for="page in pages" :key="page.id" @click="cmpPage = page.cmp">{{ page.name }}</button>
-        <keep-alive>
-            <component :is="cmpPage"></component>
-        </keep-alive>
+        <cmp-a>
+            <cmp-b>
+                <cmp-c></cmp-c>
+            </cmp-b>
+        </cmp-a>
     </div>
     <script>
 
-        Vue.component('cmp-post', {
-            data() {
+        Vue.component('cmp-a', {
+            provide(){
                 return {
-                    cmpPost: '',
-                    posts: [
-                        { title: '标题1', content: { template: `<div>内容1</div>` }, id: 11 },
-                        { title: '标题2', content: { template: `<div>内容2</div>` }, id: 12 },
-                        { title: '标题3', content: { template: `<div>内容3</div>` }, id: 13 },
-                        { title: '标题4', content: { template: `<div>内容4</div>` }, id: 14 },
-                    ]
+                    share:this.share
                 }
             },
-            created() {
-                this.cmpPost = this.posts[0].content;
+            data(){
+                return {
+                    share:'share'
+                }
             },
             template: `
-                <div>
-                    <button v-for="post in posts" @click="cmpPost = post.content">{{ post.title }}</button>
-                    <keep-alive>
-                        <component :is="cmpPost"></component>
-                    </keep-alive>
-                </div>
+                <div><slot></slot></div>
             `
         })
 
-        Vue.component('cmp-more', {
+        Vue.component('cmp-b', {
+            mounted() {
+                console.log(this.$parent.share);
+            },
             template: `
-                <div>更多</div>
+                <div><slot></slot></div>
+            `
+        })
+
+        Vue.component('cmp-c', {
+            inject:['share'],
+            mounted() {
+                console.log(this.share);
+            },
+            template: `
+                <div><slot>{{ $root.msg }}</slot></div>
             `
         })
 
         const vm = new Vue({
             el: '#app',
             data: {
-                cmpPage: 'cmp-post',
-                pages: [
-                    { name: '博客', cmp: 'cmp-post', id: 0 },
-                    { name: '更多', cmp: 'cmp-more', id: 1 },
-                ]
+                msg:'哈哈'
             },
         })
 
