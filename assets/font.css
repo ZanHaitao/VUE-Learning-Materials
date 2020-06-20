@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'iconfont'; /* project id 1896615 */
+    src: url('./font/iconfont.eot');
+    src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'), url('./font/iconfont.woff2') format('woff2'), url('./font/iconfont.woff') format('woff'),
+        url('./font/iconfont.ttf') format('truetype'), url('./font/iconfont.svg') format('svg');
+}
+
+.iconfont {
+    font-family: iconfont;
+    font-style: normal;
+}
+
+.iconfont.icon-calendar::before {
+    content: '\e75b';
+}
+.iconfont.icon-prev-year::before {
+    content: '\e714';
+}
+.iconfont.icon-next-year::before {
+    content: '\e713';
+}
+.iconfont.icon-prev-month::before {
+    content: '\e712';
+}
+.iconfont.icon-next-month::before {
+    content: '\e718';
+}

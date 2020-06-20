@@ -1,20 +1,18 @@
 <template>
   <div>
-    {{ msg }}
-    <cmp-son />
-    <p>app.vue测试</p>
+    <date-picker v-model="date" v-for="index in 2" :key="index"></date-picker>
   </div>
 </template>
 
 <script>
-import son from "./son";
+import DatePicker from "./DatePicker";
 export default {
   components: {
-    "cmp-son": son
+    DatePicker
   },
   data() {
     return {
-      msg: "测试"
+      date: new Date()
     };
   }
 };
