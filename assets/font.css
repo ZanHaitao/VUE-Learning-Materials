@@ -1,27 +1,22 @@
 @font-face {
-    font-family: 'iconfont'; /* project id 1896615 */
+    font-family: 'iconfont'; /* project id 1898797 */
     src: url('./font/iconfont.eot');
-    src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'), url('./font/iconfont.woff2') format('woff2'), url('./font/iconfont.woff') format('woff'),
-        url('./font/iconfont.ttf') format('truetype'), url('./font/iconfont.svg') format('svg');
+    src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'),
+     url('./font/iconfont.woff2') format('woff2'),
+      url('./font/iconfont.woff') format('woff'),
+       url('./font/iconfont.ttf') format('truetype'),
+        url('./font/iconfont.svg#iconfont') format('svg');
 }
 
 .iconfont {
-    font-family: iconfont;
+    font-family: 'iconfont';
     font-style: normal;
 }
 
-.iconfont.icon-calendar::before {
-    content: '\e75b';
+.icon-down::before {
+    content: '\e62b';
 }
-.iconfont.icon-prev-year::before {
-    content: '\e714';
-}
-.iconfont.icon-next-year::before {
-    content: '\e713';
-}
-.iconfont.icon-prev-month::before {
-    content: '\e712';
-}
-.iconfont.icon-next-month::before {
-    content: '\e718';
+
+.icon-right::before {
+    content: '\e62c';
 }

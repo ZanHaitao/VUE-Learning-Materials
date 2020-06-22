@@ -1,44 +1,23 @@
 {
-  "id": "1896615",
-  "name": "日历",
+  "id": "1898797",
+  "name": "shu'xing",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
-      "icon_id": "7090055",
-      "name": "上一页（单箭头）",
-      "font_class": "shangyiyedanjiantou",
-      "unicode": "e712",
-      "unicode_decimal": 59154
+      "icon_id": "300708",
+      "name": "三角下",
+      "font_class": "triangle-bottom",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
     },
     {
-      "icon_id": "7090060",
-      "name": "双箭头 右",
-      "font_class": "shuangjiantouyou",
-      "unicode": "e713",
-      "unicode_decimal": 59155
-    },
-    {
-      "icon_id": "7090066",
-      "name": "双箭头 左",
-      "font_class": "shuangjiantouzuo",
-      "unicode": "e714",
-      "unicode_decimal": 59156
-    },
-    {
-      "icon_id": "7090076",
-      "name": "下一页单箭头",
-      "font_class": "xiayiyedanjiantou",
-      "unicode": "e718",
-      "unicode_decimal": 59160
-    },
-    {
-      "icon_id": "14445737",
-      "name": "日历",
-      "font_class": "rili",
-      "unicode": "e75b",
-      "unicode_decimal": 59227
+      "icon_id": "300727",
+      "name": "三角右",
+      "font_class": "triangle-right",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
     }
   ]
 }
