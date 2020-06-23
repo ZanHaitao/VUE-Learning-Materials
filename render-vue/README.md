@@ -1,4 +1,4 @@
-# test-vue
+# render-vue
 
 ## Project setup
 ```
