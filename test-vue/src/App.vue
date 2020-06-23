@@ -1,28 +1,65 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BaseDemo from "./components/BaseDemo";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    BaseDemo
+  },
+  data() {
+    return {
+      msg: "hello world!",
+      show: false
+    };
+  },
+  methods: {
+    handleClick(num) {
+      console.log(num);
+    }
+  },
+  filters: {
+    filter(val) {
+      return val + 1;
+    }
+  },
+  render() {
+    return (
+      <div>
+        <div>{this.msg}</div>
+        <div domPropsTextContent="<p>i am a p</p>"></div>
+        <div domPropsInnerHTML="<p>i am a p</p>"></div>
+        <div v-show={this.show}>哈哈哈</div>
+        {true && <div>测试</div>}
+        {this.show ? <div>true</div> : <div>false</div>}
+        {[1, 2, 3].map(item => (
+          <div key={item}>{item}</div>
+        ))}
+        <div onClick={this.handleClick}>{this.msg}</div>
+        <div on-click={this.handleClick}>{this.msg}</div>
+        <div
+          on-click={() => {
+            this.handleClick(4);
+          }}
+        >
+          {this.msg}
+        </div>
+        <div class={{ active: true }} style={{ fontSize: "30px" }}>
+          测试
+        </div>
+        <div>{this.$options.filters.filter(5)}</div>
+        <base-demo
+          {...{
+            scopedSlots: {
+              default: props => props.text
+            }
+          }}
+        ></base-demo>
+      </div>
+    );
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
