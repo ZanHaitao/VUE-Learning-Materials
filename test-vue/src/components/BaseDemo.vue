@@ -1,24 +1,34 @@
 <script>
-// <template>
-//   <div>
-//     插槽测试
-//     <slot></slot>
-//     <slot name="header"></slot>
-//   </div>
-// </template>
 export default {
-  render() {
+  functional: true,
+  inject: ["name"],
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  },
+  render(h, context) {
+    const {
+      props,
+      slots,
+      scopedSlots,
+      data,
+      parent,
+      listeners,
+      injections,
+      children
+    } = context;
+    console.log(children);
+    const tag = "h" + props.level;
     return (
-      // <div>
-      //   插槽测试
-      //   {this.$slots.default}
-      //   {this.$slots.header}
-      // </div>
-      <div>
-        {this.$scopedSlots.default({
-          text: "default"
-        })}
-      </div>
+      <tag>
+        {slots().default}
+        <div onClick={listeners.click}>{slots().header}</div>
+        {scopedSlots.default({ text: "测试" })}
+        {injections.name}
+        {children[0]}
+      </tag>
     );
   }
 };
