@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BaseDemo from "./components/BaseDemo5";
+import BaseDemo from "./components/BaseDemo3";
 
 export default {
   components: {
@@ -13,4 +13,7 @@ export default {
 </script>
 
 <style>
+body {
+  background: black;
+}
 </style>

@@ -1,28 +1,19 @@
 <template>
   <div class="demo">
-    <button @click="changeKey">click</button>
-    <transition mode="in-out">
-      <component :is="cmpName"></component>
-    </transition>
+    <div class="box">hello javascript</div>
   </div>
 </template>
 
 <script>
-import Demo1 from "./BaseDemo3-1";
-import Demo2 from "./BaseDemo3-2";
 export default {
-  components: {
-    Demo1,
-    Demo2
-  },
   data() {
     return {
-      cmpName: "demo1"
+      keyName: "world"
     };
   },
   methods: {
     changeKey() {
-      this.cmpName = this.cmpName === "demo1" ? "demo2" : "demo1";
+      this.keyName = this.keyName === "world" ? "javascript" : "world";
     }
   }
 };
@@ -35,6 +26,19 @@ export default {
 
 button {
   display: block;
+}
+
+.box {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background: gray;
+  color: #fff;
+  text-align: center;
+  line-height: 100px;
+  display: inline-block;
+  margin-top: 100px;
+  border: 2px solid #fff;
 }
 
 .v-enter {

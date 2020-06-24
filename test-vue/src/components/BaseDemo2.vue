@@ -1,11 +1,8 @@
 <template>
-  <div>
-    <button @click="show = !show">click</button>
-    <transition>
-      <div class="box" v-if="show">hello world !</div>
-    </transition>
-    <transition>
-      <div class="box" v-if="show">hello world !</div>
+  <div class="demo">
+    <button @click="changeKey">click</button>
+    <transition mode="in-out">
+      <div class="box" :key="keyName">hello {{ keyName }}</div>
     </transition>
   </div>
 </template>
@@ -14,40 +11,57 @@
 export default {
   data() {
     return {
-      show: true
+      keyName: "world"
     };
+  },
+  methods: {
+    changeKey() {
+      this.keyName = this.keyName === "world" ? "javascript" : "world";
+    }
   }
 };
 </script>
 
 <style scoped>
+.demo {
+  padding-left: 200px;
+}
+
+button {
+  display: block;
+}
+
 .box {
-  width: 150px;
-  height: 150px;
-  line-height: 150px;
-  border: 1px solid red;
-  font-size: 20px;
-  color: red;
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background: gray;
+  color: #fff;
   text-align: center;
-  margin-top: 50px;
+  line-height: 100px;
+  display: inline-block;
+  margin-top: 100px;
+  border: 2px solid #fff;
 }
 
-.v-enter-active {
-  animation: animate 1s;
+.v-enter {
+  opacity: 1;
+  transform: translateX(200px) scale(1.2);
 }
 
+.v-enter-active,
 .v-leave-active {
-  animation: animate 1s reverse;
+  transition: all 0.5s;
 }
 
-@keyframes animate {
-  0% {
-    transform: translateX(400px) rotateZ(0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0) rotateZ(360deg);
-    opacity: 1;
-  }
+.v-enter-to,
+.v-leave {
+  opacity: 1;
+  transform: translateX(0px) scale(1);
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(-200px) scale(0.8);
 }
 </style>
