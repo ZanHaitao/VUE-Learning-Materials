@@ -7,7 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "animate.css": "^4.1.0",
     "core-js": "^3.6.5",
+    "velocity-animate": "^1.5.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {
