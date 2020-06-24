@@ -1,60 +1,52 @@
 <template>
-  <div class="demo">
-    <button @click="changeKey">click</button>
-    <transition mode="in-out">
-      <component :is="cmpName"></component>
-    </transition>
+  <div>
+    <input type="text" v-model="query" />
+    <transition-group tag="ul" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+      <li v-for="item in newUserList" :key="item.name">{{ item.name }}</li>
+    </transition-group>
   </div>
 </template>
 
 <script>
-import Demo1 from "./BaseDemo3-1";
-import Demo2 from "./BaseDemo3-2";
 export default {
-  components: {
-    Demo1,
-    Demo2
-  },
   data() {
     return {
-      cmpName: "demo1"
+      query: "",
+      userList: [
+        { name: "张三" },
+        { name: "师二" },
+        { name: "王五" },
+        { name: "李三" },
+        { name: "张明" }
+      ]
     };
   },
+  computed: {
+    newUserList() {
+      return this.userList.filter(item => {
+        return item.name.includes(this.query);
+      });
+    }
+  },
   methods: {
-    changeKey() {
-      this.cmpName = this.cmpName === "demo1" ? "demo2" : "demo1";
+    beforeEnter(el) {
+      el.style.opacity = 0;
+      el.style.height = 0;
+    },
+    enter(el, done) {
+      Velocity(
+        el,
+        { opacity: 1, height: "24px" },
+        { duration: 500, complete: done }
+      );
+    },
+    leave(el, done) {
+      Velocity(
+        el,
+        { opacity: 0, height: 0 },
+        { duration: 500, complete: done }
+      );
     }
   }
 };
 </script>
-
-<style scoped>
-.demo {
-  padding-left: 200px;
-}
-
-button {
-  display: block;
-}
-
-.v-enter {
-  opacity: 1;
-  transform: translateX(200px) scale(1.2);
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.5s;
-}
-
-.v-enter-to,
-.v-leave {
-  opacity: 1;
-  transform: translateX(0px) scale(1);
-}
-
-.v-leave-to {
-  opacity: 0;
-  transform: translateX(-200px) scale(0.8);
-}
-</style>

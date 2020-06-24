@@ -1,9 +1,9 @@
 <template>
-  <div class="demo">
-    <button @click="changeKey">click</button>
-    <transition mode="in-out">
-      <div class="box" :key="keyName">hello {{ keyName }}</div>
-    </transition>
+  <div>
+    <input type="text" v-model="query" />
+    <transition-group tag="ul">
+      <li v-for="item in newUserList" :key="item.name">{{ item.name }}</li>
+    </transition-group>
   </div>
 </template>
 
@@ -11,42 +11,31 @@
 export default {
   data() {
     return {
-      keyName: "world"
+      query: "",
+      userList: [
+        { name: "张三" },
+        { name: "师二" },
+        { name: "王五" },
+        { name: "李三" },
+        { name: "张明" }
+      ]
     };
   },
-  methods: {
-    changeKey() {
-      this.keyName = this.keyName === "world" ? "javascript" : "world";
+  computed: {
+    newUserList() {
+      return this.userList.filter(item => {
+        return item.name.includes(this.query);
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-.demo {
-  padding-left: 200px;
-}
-
-button {
-  display: block;
-}
-
-.box {
-  position: absolute;
-  width: 200px;
-  height: 100px;
-  background: gray;
-  color: #fff;
-  text-align: center;
-  line-height: 100px;
-  display: inline-block;
-  margin-top: 100px;
-  border: 2px solid #fff;
-}
-
-.v-enter {
-  opacity: 1;
-  transform: translateX(200px) scale(1.2);
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  height: 0;
 }
 
 .v-enter-active,
@@ -57,11 +46,6 @@ button {
 .v-enter-to,
 .v-leave {
   opacity: 1;
-  transform: translateX(0px) scale(1);
-}
-
-.v-leave-to {
-  opacity: 0;
-  transform: translateX(-200px) scale(0.8);
+  height: 24px;
 }
 </style>
