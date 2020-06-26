@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="header">
-      <router-link to="/">首页</router-link>
-      <router-link to="/student">学生</router-link>
-      <router-link to="/learn">学习</router-link>
-      <router-link to="/about">关于</router-link>
-      <router-link to="/activity">社区</router-link>
+      <div class="logo">学 生 系 统</div>
+      <div class="nav-list">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/learn">课程学习</router-link>
+        <router-link to="/student">学员展示</router-link>
+        <router-link to="/about">关于</router-link>
+        <router-link to="/activity">社区</router-link>
+      </div>
     </div>
     <div class="container">
       <router-view></router-view>
@@ -27,15 +30,26 @@ export default {
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 80px;
-  background: blue;
+  background: #06a5ff;
   align-items: center;
 }
 
+.header .logo {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .header a {
+  padding: 5px 20px;
   color: #fff;
   text-decoration: none;
+}
+
+.header a.router-link-active {
+  font-weight: bold;
 }
 
 .header,

@@ -2,16 +2,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from './views/Home.vue'
-// import Student from './views/Student.vue'
-// import About from './views/About.vue'
-// import Activity from './views/Activity.vue'
-// import Learn from './views/Learn.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    // alias: '/',
     component: Home
   },
   {
@@ -24,7 +25,25 @@ const routes = [
   },
   {
     path: '/activity',
-    component: () => import('./views/Activity.vue')
+    component: () => import('./views/Activity.vue'),
+    redirect: { name: 'academic' },
+    children: [
+      {
+        path: 'academic',
+        name: 'academic',
+        component: () => import('./views/Academic.vue')
+      },
+      {
+        path: 'personal',
+        name: 'personal',
+        component: () => import('./views/Personal.vue')
+      },
+      {
+        path: 'download',
+        name: 'download',
+        component: () => import('./views/Download.vue')
+      },
+    ]
   },
   {
     path: '/learn',
