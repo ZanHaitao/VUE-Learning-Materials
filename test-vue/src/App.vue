@@ -1,30 +1,24 @@
 <template>
   <div>
-    <button @click="show = !show">click</button>
-    <!-- <transition-demo>
-      <div v-if="show">hello world!</div>
-    </transition-demo>
-    <transition-demo>
-      <div v-if="show">hello eee!</div>
-    </transition-demo>-->
-
-    <transition-demo>
-      <div key="1" v-if="show">hello world!</div>
-      <div key="2" v-else>hello xiamen!</div>
-    </transition-demo>
+    <button @click="show = true">click</button>
+    <async-demo-1 v-if="show" />
+    <async-demo-2 v-if="show" />
   </div>
 </template>
 
 <script>
-import TransitionDemo from "./components/TransitionDemo";
+// import AsyncDemo1 from "./components/AsyncDemo1";
 
 export default {
   components: {
-    TransitionDemo
+    AsyncDemo1: () =>
+      import(/* webpackChunkName:"async" */ "./components/AsyncDemo1"),
+    AsyncDemo2: () =>
+      import(/* webpackChunkName:"async" */ "./components/AsyncDemo2")
   },
   data() {
     return {
-      show: true
+      show: false
     };
   }
 };
