@@ -1,21 +1,21 @@
 <template>
   <div>
-    <button @click="show = true">click</button>
-    <async-demo-1 v-if="show" />
-    <async-demo-2 v-if="show" />
+    <div class="header">
+      <router-link to="/">首页</router-link>
+      <router-link to="/student">学生</router-link>
+      <router-link to="/learn">学习</router-link>
+      <router-link to="/about">关于</router-link>
+      <router-link to="/activity">社区</router-link>
+    </div>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-// import AsyncDemo1 from "./components/AsyncDemo1";
-
 export default {
-  components: {
-    AsyncDemo1: () =>
-      import(/* webpackChunkName:"async" */ "./components/AsyncDemo1"),
-    AsyncDemo2: () =>
-      import(/* webpackChunkName:"async" */ "./components/AsyncDemo2")
-  },
+  components: {},
   data() {
     return {
       show: false
@@ -24,5 +24,26 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.header {
+  display: flex;
+  justify-content: space-around;
+  height: 80px;
+  background: blue;
+  align-items: center;
+}
+
+.header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.header,
+.container {
+  padding: 0 200px;
+}
+
+.container {
+  padding-top: 50px;
+}
 </style>
