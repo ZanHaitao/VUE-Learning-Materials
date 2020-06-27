@@ -7,6 +7,7 @@
         v-for="question in questionList"
         :key="question.id"
         @click="handleClick(question.id)"
+        :title="question.title"
       >{{question.title}}</div>
     </div>
   </div>
@@ -14,8 +15,13 @@
 
 <script>
 export default {
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.getData(vm);
+    });
+  },
   beforeRouteUpdate(to, from, next) {
-    console.log("beforeRouteUpdate");
+    this.getData(to.params);
     next();
   },
   props: {
@@ -30,8 +36,8 @@ export default {
     };
   },
   methods: {
-    getData() {
-      const { id } = this;
+    getData(prop) {
+      const { id } = prop;
       this.$axios(`/question/${id}`).then(res => {
         this.questionData = res;
       });
@@ -64,15 +70,18 @@ export default {
       }
       return arr;
     }
-  },
-  watch: {
-    $route: {
-      handler() {
-        this.getData();
-      },
-      immediate: true
-    }
   }
+  // mounted() {
+  //   this.getData();
+  // }
+  // watch: {
+  //   $route: {
+  //     handler() {
+  //       this.getData();
+  //     },
+  //     immediate: true
+  //   }
+  // }
 };
 </script>
 

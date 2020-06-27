@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import Home from './views/Home.vue'
+import Auth from './utils/auth'
 
 Vue.use(VueRouter);
 
@@ -18,14 +18,13 @@ const routes = [
   {
     path: '/student',
     component: () => import('./views/Student.vue'),
-    beforeEnter: (to, from, next) => {
-      console.log('beforeEnter');
-      next();
-    }
   },
   {
     path: '/about',
-    component: () => import('./views/About.vue')
+    component: () => import('./views/About.vue'),
+    meta: {
+      requiredLogin: true
+    }
   },
   {
     path: '/activity',
@@ -47,11 +46,13 @@ const routes = [
         name: 'download',
         component: () => import('./views/Download.vue')
       },
-    ]
+    ],
+    meta: {
+      requiredLogin: true
+    }
   },
   {
     path: '/learn',
-    // component: () => import('./views/Learn.vue')
     components: {
       default: () => import('./views/Learn.vue'),
       student: () => import('./views/Student.vue')
@@ -61,7 +62,14 @@ const routes = [
     path: '/question/:id',
     name: 'question',
     props: true,
-    component: () => import('./views/Question.vue')
+    component: () => import('./views/Question.vue'),
+    meta: {
+      isConfirm: true
+    }
+  },
+  {
+    path: '/login',
+    component: () => import('./views/Login.vue')
   }
 ]
 
@@ -71,24 +79,28 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('beforeEach');
-  // console.log(to);
-  // console.log(from);
-  // if (to.path === "/student") {
-  //   next('/about')
-  // } else {
-  //   next();
-  // }
-  next();
+  const isRequiredLogin = to.matched.some(item => item.meta.requiredLogin);
+  const isConfirm = from.meta.isConfirm && !to.meta.isConfirm;
+
+  if (isRequiredLogin || isConfirm) {
+    if (isConfirm) {
+      const isLeave = confirm('是否确认离开当前页面？');
+      isLeave ? next() : next(false);
+      return;
+    }
+
+    if (!Auth.isLogin() && isRequiredLogin) {
+      const isGoLogin = confirm('您当前未进行登陆无法访问！是否前往登陆？');
+      isGoLogin ? next('/login') : next(false)
+    } else {
+      next();
+    }
+
+  } else {
+    next();
+  }
+
 })
 
-router.beforeResolve((to, from, next) => {
-  console.log('beforeResolve');
-  next();
-})
-
-router.afterEach((to, from) => {
-  console.log('afterEach');
-})
 
 export default router;
