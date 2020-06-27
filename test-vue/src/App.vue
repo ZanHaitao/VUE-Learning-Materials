@@ -12,6 +12,7 @@
     </div>
     <div class="container">
       <router-view></router-view>
+      <router-view name="student"></router-view>
     </div>
   </div>
 </template>

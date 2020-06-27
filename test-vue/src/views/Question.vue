@@ -14,6 +14,12 @@
 
 <script>
 export default {
+  props: {
+    id: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data() {
     return {
       questionData: null
@@ -21,7 +27,7 @@ export default {
   },
   methods: {
     getData() {
-      const { id } = this.$route.params;
+      const { id } = this;
       this.$axios(`/question/${id}`).then(res => {
         this.questionData = res;
       });

@@ -47,11 +47,16 @@ const routes = [
   },
   {
     path: '/learn',
-    component: () => import('./views/Learn.vue')
+    // component: () => import('./views/Learn.vue')
+    components: {
+      default: () => import('./views/Learn.vue'),
+      student: () => import('./views/Student.vue')
+    }
   },
   {
     path: '/question/:id',
     name: 'question',
+    props: true,
     component: () => import('./views/Question.vue')
   }
 ]
