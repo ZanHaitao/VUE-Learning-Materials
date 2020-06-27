@@ -17,7 +17,11 @@ const routes = [
   },
   {
     path: '/student',
-    component: () => import('./views/Student.vue')
+    component: () => import('./views/Student.vue'),
+    beforeEnter: (to, from, next) => {
+      console.log('beforeEnter');
+      next();
+    }
   },
   {
     path: '/about',
@@ -61,7 +65,30 @@ const routes = [
   }
 ]
 
-export default new VueRouter({
+const router = new VueRouter({
   routes,
   mode: 'history'
 });
+
+router.beforeEach((to, from, next) => {
+  console.log('beforeEach');
+  // console.log(to);
+  // console.log(from);
+  // if (to.path === "/student") {
+  //   next('/about')
+  // } else {
+  //   next();
+  // }
+  next();
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log('beforeResolve');
+  next();
+})
+
+router.afterEach((to, from) => {
+  console.log('afterEach');
+})
+
+export default router;

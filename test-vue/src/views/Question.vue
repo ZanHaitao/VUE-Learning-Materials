@@ -14,6 +14,10 @@
 
 <script>
 export default {
+  beforeRouteUpdate(to, from, next) {
+    console.log("beforeRouteUpdate");
+    next();
+  },
   props: {
     id: {
       type: [String, Number],
