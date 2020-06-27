@@ -25,13 +25,13 @@ const routes = [
   },
   {
     path: '/activity',
-    component: () => import('./views/Activity.vue'),
+    component: () => import(/* webpackChunkName:"activity" */'./views/Activity.vue'),
     redirect: { name: 'academic' },
     children: [
       {
         path: 'academic',
         name: 'academic',
-        component: () => import('./views/Academic.vue')
+        component: () => import(/* webpackChunkName:"activity" */'./views/Academic.vue')
       },
       {
         path: 'personal',
