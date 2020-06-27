@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="logo" @click="handleClick">学 生 系 统</div>
+      <div class="logo" @click="handleClick">用 户 中 心</div>
       <div class="nav-list">
         <router-link to="/home">首页</router-link>
         <router-link to="/learn">课程学习</router-link>
@@ -26,10 +26,9 @@ export default {
   },
   methods: {
     handleClick() {
-      // this.$router.push("/home");
+      this.$router.push("/home");
       // this.$router.replace("/home");
       // this.$router.go(0);
-      console.log(this.$route);
     }
   }
 };
@@ -48,6 +47,7 @@ export default {
   color: #fff;
   font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .header a {

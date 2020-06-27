@@ -49,6 +49,11 @@ const routes = [
     path: '/learn',
     component: () => import('./views/Learn.vue')
   },
+  {
+    path: '/question/:id',
+    name: 'question',
+    component: () => import('./views/Question.vue')
+  }
 ]
 
 export default new VueRouter({
