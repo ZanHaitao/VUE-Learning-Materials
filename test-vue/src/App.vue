@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <div class="header">
       <div class="logo" @click="handleClick">用 户 中 心</div>
       <div class="nav-list">
@@ -11,8 +11,10 @@
       </div>
     </div>
     <div class="container">
-      <router-view></router-view>
-      <router-view name="student"></router-view>
+      <transition>
+        <router-view></router-view>
+      </transition>
+      <!-- <router-view name="student"></router-view> -->
     </div>
   </div>
 </template>
@@ -36,6 +38,11 @@ export default {
 </script>
 
 <style scoped>
+/* #app {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+} */
 .header {
   display: flex;
   justify-content: space-between;
@@ -68,5 +75,17 @@ export default {
 
 .container {
   padding-top: 50px;
+}
+
+.v-enter {
+  transform: translateX(1000px);
+}
+
+.v-enter-active {
+  transition: all 0.5s;
+}
+
+.v-enter-to {
+  transform: translateX(0);
 }
 </style>
