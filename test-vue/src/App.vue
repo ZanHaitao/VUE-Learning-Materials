@@ -36,6 +36,7 @@ export default {
 .header a {
   color: #fff;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .header,

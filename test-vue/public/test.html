@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <a href="#/">首页</a>
+  <a href="#about">关于</a> -->
+
+  <span onclick="handleClick('/')">首页</span>
+  <span onclick="handleClick('/about')">关于</span>
+  <div id="view"></div>
+
+  <script>
+    const view = document.getElementById('view')
+    // document.addEventListener("DOMContentLoaded", () => {
+    //   location.hash ? '' : location.hash = '/'
+    //   view.innerHTML = location.hash;
+    // })
+
+    // window.addEventListener('hashchange', () => {
+    //   view.innerHTML = location.hash;
+    // })
+
+    // function handleClick(pathname) {
+    //   location.hash = pathname;
+    // }
+
+    function handleClick(pathname) {
+      history.pushState(null, null, pathname);
+      view.innerHTML = location.pathname;
+    }
+
+    window.addEventListener('popstate', () => {
+      console.log('aaa');
+      view.innerHTML = location.pathname;
+    })
+  </script>
+</body>
+
+</html>

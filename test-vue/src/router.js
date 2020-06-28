@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+// import VueRouter from 'vue-router';
+import VueRouter from './VueRouter';
+
 
 import Home from './views/Home.vue'
 // import Student from './views/Student.vue'
