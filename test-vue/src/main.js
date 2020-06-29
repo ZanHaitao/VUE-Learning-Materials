@@ -5,7 +5,7 @@ import 'velocity-animate'
 import router from './router'
 import './assets/reset.css'
 import axios from './http'
-import store from './Store'
+import store from './store/Store'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
