@@ -23,10 +23,12 @@ export default {
   },
   methods: {
     addStudent() {
-      this.$store.state.studentList.push({
-        name: this.name,
-        age: this.age,
-        id: +new Date()
+      this.$store.commit("student/studentAdd", {
+        obj: {
+          name: this.name,
+          age: this.age,
+          id: +new Date()
+        }
       });
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="student-list">
-    <div>学生总数：{{ studentLength }}</div>
+    <div>学生总数：{{ $store.getters['student/studentLength'] }}</div>
     <hr />
     <div>学生列表</div>
     <ul>
@@ -19,8 +19,8 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["studentList"]),
-    ...mapGetters(["studentMinor", "studentLength"])
+    ...mapState("student", ["studentList"]),
+    ...mapGetters("student", ["studentMinor"])
   }
 };
 </script>

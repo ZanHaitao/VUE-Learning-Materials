@@ -1,12 +1,12 @@
 <template>
   <div>
     <button @click="handleClick">点击</button>
-    <div>{{ StoreCount }}</div>
-    <div>{{obj}}</div>
-    <div>
+    <div>{{ count }}</div>
+    <!-- <div>{{obj}}</div> -->
+    <!-- <div>
       <input type="text" v-model="msg" />
       {{msg}}
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -16,34 +16,24 @@ import { COUNT_ADD, CHANGE_OBJ, CHANGE_MSG } from "@/store/mutation-types";
 
 export default {
   computed: {
-    ...mapState({
-      // StoreCount: state => state.count
-      StoreCount: "count",
-      obj: "obj"
-    }),
-    msg: {
-      get() {
-        return this.$store.state.msg;
-      },
-      set(value) {
-        this.$store.commit(CHANGE_MSG, {
-          value
-        });
-      }
-    }
+    ...mapState("count", ["count"])
+    // msg: {
+    //   get() {
+    //     return this.$store.state.msg;
+    //   },
+    //   set(value) {
+    //     this.$store.commit(CHANGE_MSG, {
+    //       value
+    //     });
+    //   }
+    // }
   },
   methods: {
-    ...mapMutations(["countAdd"]),
+    ...mapMutations("count", ["countAdd"]),
     handleClick() {
-      this.$store.dispatch(COUNT_ADD, {
+      this.$store.dispatch(`count/${COUNT_ADD}`, {
         num: 10
       });
-      // this.$store.commit("countAdd");
-      // this.$store.commit(COUNT_ADD, {
-      //   num: 10
-      // });
-      // this.$store.commit(CHANGE_OBJ);
-      // this.countAdd();
     }
   }
 };
