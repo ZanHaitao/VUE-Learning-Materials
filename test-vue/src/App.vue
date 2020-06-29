@@ -38,11 +38,11 @@ export default {
 </script>
 
 <style scoped>
-/* #app {
+#app {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-} */
+}
 .header {
   display: flex;
   justify-content: space-between;
