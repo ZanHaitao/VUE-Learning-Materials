@@ -27,5 +27,12 @@ export default new Vuex.Store({
     [CHANGE_MSG](state, { value }) {
       state.msg = value
     }
+  },
+  actions: {
+    [COUNT_ADD](state, payload) {
+      setTimeout(() => {
+        state.commit(COUNT_ADD, payload)
+      }, 1000)
+    }
   }
 })

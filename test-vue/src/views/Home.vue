@@ -35,6 +35,9 @@ export default {
   methods: {
     ...mapMutations(["countAdd"]),
     handleClick() {
+      this.$store.dispatch(COUNT_ADD, {
+        num: 10
+      });
       // this.$store.commit("countAdd");
       // this.$store.commit(COUNT_ADD, {
       //   num: 10
