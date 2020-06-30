@@ -10,6 +10,9 @@
     "animate.css": "^4.1.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "css-loader": "^3.6.0",
+    "less-loader": "^6.1.3",
+    "style-loader": "^1.2.1",
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
@@ -18,6 +21,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
+    "style-resources-loader": "^1.3.2",
+    "vue-cli-plugin-style-resources-loader": "~0.1.4",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [

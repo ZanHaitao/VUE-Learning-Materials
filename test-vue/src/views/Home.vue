@@ -38,3 +38,15 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+// @import "../assets/public.less";
+
+div {
+  background: @color;
+  border: @yellow 10px solid;
+  &:hover {
+    background: @green;
+  }
+}
+</style>
