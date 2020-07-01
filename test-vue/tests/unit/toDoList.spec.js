@@ -1,8 +1,3 @@
-# mocha-chai 测试 ToDoList 组件
-
-> vue-test-utils 官方文档：https://vue-test-utils.vuejs.org/zh/
-
-```js
 import ToDoList from "@/components/ToDoList"
 import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
@@ -34,4 +29,3 @@ describe('测试ToDiList组件', () => {
     expect(wrapper.vm.mask).to.be.equal('');
   })
 })
-```
