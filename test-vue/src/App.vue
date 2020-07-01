@@ -1,91 +1,28 @@
 <template>
   <div id="app">
-    <div class="header">
-      <div class="logo" @click="handleClick">用 户 中 心</div>
-      <div class="nav-list">
-        <router-link to="/home">首页</router-link>
-        <router-link to="/learn">课程学习</router-link>
-        <router-link to="/student">学员展示</router-link>
-        <router-link to="/about">关于</router-link>
-        <router-link to="/activity">社区</router-link>
-      </div>
-    </div>
-    <div class="container">
-      <transition>
-        <router-view></router-view>
-      </transition>
-      <!-- <router-view name="student"></router-view> -->
-    </div>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld.vue'
+
 export default {
-  components: {},
-  data() {
-    return {
-      show: false
-    };
-  },
-  methods: {
-    handleClick() {
-      this.$router.push("/home");
-      // this.$router.replace("/home");
-      // this.$router.go(0);
-    }
+  name: 'App',
+  components: {
+    HelloWorld
   }
-};
+}
 </script>
 
-<style scoped>
+<style>
 #app {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  height: 80px;
-  background: #06a5ff;
-  align-items: center;
-}
-
-.header .logo {
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.header a {
-  padding: 5px 20px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.header a.router-link-active {
-  font-weight: bold;
-}
-
-.header,
-.container {
-  padding: 0 200px;
-}
-
-.container {
-  padding-top: 50px;
-}
-
-.v-enter {
-  transform: translateX(1000px);
-}
-
-.v-enter-active {
-  transition: all 0.5s;
-}
-
-.v-enter-to {
-  transform: translateX(0);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
