@@ -1,8 +1,3 @@
-# mocha-chai 测试 HelloWorld 组件
-
-> vue-test-utils 官方文档：https://vue-test-utils.vuejs.org/zh/
-
-```js
 import HelloWorld from '@/components/HelloWorld.vue'
 import Vue from 'vue'
 import { expect } from 'chai'
@@ -31,4 +26,3 @@ describe('测试HelloWorld组件', () => {
     expect(domInner).to.be.include(msg)
   });
 })
-```
